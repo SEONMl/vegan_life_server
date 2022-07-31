@@ -15,10 +15,11 @@ import org.springframework.stereotype.Service;
 public class LoginService {
     @Autowired
     MemberRepository memberRepository;
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     public MemberEntity registerMember(MemberDto dto) {
-        String encodedPW = passwordEncoder.encode(dto.getPassword());
+        String encoded = passwordEncoder.encode(dto.getPassword());
 
         MemberEntity saved = MemberEntity.builder()
                 .name(dto.getName())
@@ -26,7 +27,7 @@ public class LoginService {
                 .nickname(dto.getNickname())
                 .height(dto.getHeight())
                 .weight(dto.getWeight())
-                .password(encodedPW)
+                .password(encoded)
                 .vege_type(dto.getVege_type())
                 .build();
         memberRepository.save(saved);
@@ -34,7 +35,13 @@ public class LoginService {
         return saved;
     }
 
-    public void checkAccount(String email, String password) {
+    public boolean login(String email, String password) {
+        MemberEntity target = memberRepository.findByEmail(email).orElse(null);
+        if (target==null) return false;
 
+        if (passwordEncoder.matches(password, target.getPassword()))
+            return true;
+        else
+            return false;
     }
 }

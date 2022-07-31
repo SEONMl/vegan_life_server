@@ -10,18 +10,29 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class LoginController {
 
     @Autowired
     private LoginService loginService;
 
 
-    @PostMapping("/api/sign-up")
-    public ResponseEntity register(@RequestBody MemberDto dto){
+    @PostMapping("/join")
+    public ResponseEntity register(@RequestBody MemberDto dto) {
         MemberEntity result = loginService.registerMember(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody Map<String, String> json) {
+        boolean result = loginService.login(json.get("email"), json.get("password"));
+        if (result)
+            return ResponseEntity.status(HttpStatus.OK).body("");
+        else
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("");
     }
 
 
