@@ -11,10 +11,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentDto {
-    private Long comment_idx;
+    private Long comment_id;
+    private Long article_id;
+
     private String content;
-    private ArticleDto article_idx;
     private LocalDateTime written_at;
     private LocalDateTime updated_at;
-    private MemberDto writer;
+    private String writer;
+    private Long member_id;
 }

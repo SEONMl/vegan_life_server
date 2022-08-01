@@ -17,20 +17,20 @@ import java.util.Date;
 public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long article_idx;
+    private Long article_id;
 
     private String content;
     private int community_code;
     @ManyToOne
-    private MemberEntity writer;
+    private MemberEntity member_id;
     private LocalDateTime updated_at;
     private LocalDateTime written_at;
 
     @Builder
-    public ArticleEntity( String content, int community_code, MemberEntity writer) {
+    public ArticleEntity(String content, int community_code, MemberEntity member_id) {
         this.content = content;
         this.community_code = community_code;
-        this.writer = writer;
+        this.member_id = member_id;
         this.written_at = LocalDateTime.now();
     }
 }
