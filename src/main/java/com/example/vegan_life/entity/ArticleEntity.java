@@ -1,14 +1,11 @@
 package com.example.vegan_life.entity;
 
-import com.example.vegan_life.dto.MemberDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name="article")
@@ -22,6 +19,7 @@ public class ArticleEntity {
     private String content;
     private int community_code;
     @ManyToOne
+    @Column(name="member_id")
     private MemberEntity member_id;
     private LocalDateTime updated_at;
     private LocalDateTime written_at;
