@@ -11,10 +11,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleDto {
-    private Long article_idx;
+    private Long article_id;
     private String content;
     private int community_code;
-    private MemberDto writer;
+    private String writer;
     private LocalDateTime written_at;
     private LocalDateTime updated_at;
 }

@@ -17,11 +17,13 @@ import java.time.format.DateTimeFormatter;
 public class MemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long member_idx;
+    private Long member_id;
 
     @Column(unique = true)
     @NotNull
     private String email;
+    @Column(unique = true)
+    private String phone;
     @NotNull
     private String password;
     private String name;

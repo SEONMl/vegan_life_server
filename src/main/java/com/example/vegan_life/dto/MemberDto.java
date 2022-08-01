@@ -12,8 +12,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberDto {
-    private Long member_idx;
+    private Long member_id;
+
     private String email;
+    private String phone;
     private String password;
     private String name;
     private String nickname;

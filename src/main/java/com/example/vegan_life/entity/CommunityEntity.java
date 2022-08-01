@@ -12,5 +12,5 @@ import javax.persistence.*;
 public class CommunityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long community_idx;
+    private Long community_id;
 }

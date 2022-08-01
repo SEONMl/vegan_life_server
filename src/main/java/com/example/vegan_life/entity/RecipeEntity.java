@@ -12,5 +12,5 @@ import javax.persistence.*;
 public class RecipeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long recipe_idx;
+    private Long recipe_id;
 }

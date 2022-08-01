@@ -10,5 +10,5 @@ import javax.persistence.*;
 public class DietEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long diet_idx;
+    private Long diet_id;
 }
