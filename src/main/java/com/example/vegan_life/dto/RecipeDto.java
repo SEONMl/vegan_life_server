@@ -8,10 +8,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecipeDto {
-    private String name;
+    private String name_kor;
+    private String name_eng;
     private String nutrient;
     private String ingredient;
-    private Boolean keep_recipe;
-    private Cooking_Order cooking_order;
-    // 이미지
+    private String cook_order;
+    private String classification;
+
+    private Float calorie;
+    private Float carbohydrate;
+    private Float protein;
+    private Float fat;
+    private Float calcium;
+    private Float vitamin;
+    private Float iron;
 }

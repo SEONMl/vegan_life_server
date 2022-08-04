@@ -16,10 +16,10 @@ public class CommentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long comment_id;
     @ManyToOne
-    @Column(name="member_id")
+    @JoinColumn(name="member_id")
     private MemberEntity member_id;
     @ManyToOne
-    @Column(name="article_id")
+    @JoinColumn(name="article_id")
     private ArticleEntity article_id;
     private String content;
     private LocalDateTime written_at;

@@ -19,7 +19,7 @@ public class ArticleEntity {
     private String content;
     private int community_code;
     @ManyToOne
-    @Column(name="member_id")
+    @JoinColumn(name="member_id")
     private MemberEntity member_id;
     private LocalDateTime updated_at;
     private LocalDateTime written_at;

@@ -15,8 +15,8 @@ public class DietDto {
 
     private Long diet_id;
     private Date intake_time;
-    private String diet_name_kor;
-    private String diet_name_eng;
+    private String name_kor;
+    private String name_eng;
     private Float calorie;
     private Float carbohydrate;
     private Float protein;
@@ -24,5 +24,4 @@ public class DietDto {
     private Float calcium;
     private Float vitamin;
     private Float iron;
-    // 이미지
 }
