@@ -17,13 +17,15 @@ public class MemberController {
     @GetMapping("/member")
     public ResponseEntity getMemberInfo(@RequestBody MemberDto dto){
         MemberEntity result = memberService.getMemberInfo(dto);
+        if (result == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @PatchMapping("/member")
+    @PatchMapping("/members")
     public ResponseEntity modifyMemberInfo(@RequestBody MemberDto dto){
         MemberEntity result = memberService.modifyMemberInfo(dto);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        if (result == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        else return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 }

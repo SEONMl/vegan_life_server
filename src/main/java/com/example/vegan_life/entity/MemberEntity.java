@@ -1,5 +1,6 @@
 package com.example.vegan_life.entity;
 
+import com.example.vegan_life.dto.MemberDto;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
-@Table(name="member")
+@Table(name = "member")
 @Getter
 @NoArgsConstructor
 public class MemberEntity {
@@ -46,5 +47,15 @@ public class MemberEntity {
         this.weight = weight;
         this.vege_type = vege_type;
         this.created_at = LocalDateTime.now();
+    }
+
+    public void update(MemberDto dto) {
+        this.password = dto.getPassword();
+        this.name = dto.getName();
+        this.nickname = dto.getNickname();
+        this.height = dto.getHeight();
+        this.weight = dto.getWeight();
+        this.vege_type = dto.getVege_type();
+        this.updated_at = LocalDateTime.now();
     }
 }

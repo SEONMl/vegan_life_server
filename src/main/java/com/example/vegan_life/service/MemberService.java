@@ -6,6 +6,8 @@ import com.example.vegan_life.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class MemberService {
     @Autowired
@@ -16,11 +18,11 @@ public class MemberService {
         return target;
     }
 
+    @Transactional
     public MemberEntity modifyMemberInfo(MemberDto dto) {
         MemberEntity target =memberRepository.findById(dto.getMember_id()).orElse(null);
         if (target != null){
-            //target.nickname = dto.getNickname();
-
+            target.update(dto);
         }
         return target;
     }
