@@ -40,6 +40,15 @@ public class CommunityController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @PatchMapping("/article/{article_id}")
+    public ResponseEntity patchArticle(@PathVariable Long article_id,
+                                       @RequestBody ArticleDto dto) {
+        ArticleEntity result = communityService.modifyArticle(article_id, dto);
+        if (result == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
     @PostMapping("/article/{article_id}")
     public ResponseEntity createComment(@PathVariable Long article_id,
                                         @RequestBody CommentDto dto) {

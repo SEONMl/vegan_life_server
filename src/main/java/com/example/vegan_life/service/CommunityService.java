@@ -53,4 +53,12 @@ public class CommunityService {
     public ArticleEntity getArticle(Long article_id) {
         return articleRepository.findById(article_id).orElse(null);
     }
+
+    public ArticleEntity modifyArticle(Long article_id, ArticleDto dto) {
+        ArticleEntity target = articleRepository.findById(article_id).orElse(null);
+        if (target!=null){
+            target.update(dto);
+        }
+        return target;
+    }
 }

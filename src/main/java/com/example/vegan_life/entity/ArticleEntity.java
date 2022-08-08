@@ -1,5 +1,6 @@
 package com.example.vegan_life.entity;
 
+import com.example.vegan_life.dto.ArticleDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,12 @@ public class ArticleEntity {
         this.community_code = community_code;
         this.member_id = member_id;
         this.written_at = LocalDateTime.now();
+        this.updated_at = LocalDateTime.now();
+    }
+
+    public void update(ArticleDto dto) {
+        this.content = dto.getContent();
+        this.community_code = dto.getCommunity_code();
         this.updated_at = LocalDateTime.now();
     }
 }
