@@ -18,7 +18,7 @@ public class ArticleEntity {
 
     private String content;
     private int community_code;
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="member_id")
     private MemberEntity member_id;
     private LocalDateTime updated_at;
@@ -30,5 +30,6 @@ public class ArticleEntity {
         this.community_code = community_code;
         this.member_id = member_id;
         this.written_at = LocalDateTime.now();
+        this.updated_at = LocalDateTime.now();
     }
 }

@@ -15,10 +15,10 @@ public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long comment_id;
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name="member_id")
     private MemberEntity member_id;
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name="article_id")
     private ArticleEntity article_id;
     private String content;
@@ -31,6 +31,7 @@ public class CommentEntity {
         this.article_id = article_id;
         this.content = content;
         this.written_at = LocalDateTime.now();
+        this.updated_at = LocalDateTime.now();
     }
 }
 

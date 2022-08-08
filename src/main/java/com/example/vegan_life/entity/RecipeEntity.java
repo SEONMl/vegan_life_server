@@ -1,5 +1,6 @@
 package com.example.vegan_life.entity;
 
+import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="recipe")
+@Table(name = "recipe")
 @Getter
 @NoArgsConstructor
 public class RecipeEntity {
@@ -16,6 +17,10 @@ public class RecipeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recipe_id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private MemberEntity member_id;
+
+    @NotNull
     private String name_kor;
     private String name_eng;
     private String nutrient;
@@ -34,7 +39,7 @@ public class RecipeEntity {
     private LocalDateTime intake_time;
 
     @Builder
-    public RecipeEntity( String name_kor, String name_eng, String nutrient, String ingredient, String cook_order, String classification, Float calorie, Float carbohydrate, Float protein, Float fat, Float calcium, Float vitamin, Float iron) {
+    public RecipeEntity(String name_kor, String name_eng, String nutrient, String ingredient, String cook_order, String classification, Float calorie, Float carbohydrate, Float protein, Float fat, Float calcium, Float vitamin, Float iron) {
         this.name_kor = name_kor;
         this.name_eng = name_eng;
         this.nutrient = nutrient;
