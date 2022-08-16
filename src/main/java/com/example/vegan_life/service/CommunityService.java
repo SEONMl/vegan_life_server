@@ -51,7 +51,8 @@ public class CommunityService {
     }
 
     public ArticleEntity getArticle(Long article_id) {
-        return articleRepository.findById(article_id).orElse(null);
+        ArticleEntity target = articleRepository.findById(article_id).orElse(null);
+        return target;
     }
 
     public ArticleEntity modifyArticle(Long article_id, ArticleDto dto) {
@@ -60,5 +61,27 @@ public class CommunityService {
             target.update(dto);
         }
         return target;
+    }
+
+    public int deleteArticle(Long article_id) {
+        try {
+            articleRepository.deleteById(article_id);
+            return 204;
+        }catch(IllegalArgumentException exception){
+            return 404;
+        }
+    }
+
+    public int deleteComment(Long comment_id) {
+        try {
+            commentRepository.deleteById(comment_id);
+            return 204;
+        }catch(IllegalArgumentException exception){
+            return 404;
+        }
+    }
+
+    public List<CommentEntity> getComments(Long article_id) {
+        return commentRepository.findAllByArticleId(article_id);
     }
 }

@@ -30,13 +30,15 @@ public class CommunityController {
 
     @PostMapping("/articles")
     public ResponseEntity createArticle(@RequestBody ArticleDto dto) {
-        ArticleEntity reuslt = communityService.createArticle(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(reuslt);
+        ArticleEntity result = communityService.createArticle(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @GetMapping("/article/{article_id}")
-    public ResponseEntity readArticle(@PathVariable Long article_id) {
+    public ResponseEntity<ArticleEntity> readArticle(@PathVariable Long article_id) {
         ArticleEntity result = communityService.getArticle(article_id);
+        if (result==null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -45,8 +47,20 @@ public class CommunityController {
                                        @RequestBody ArticleDto dto) {
         ArticleEntity result = communityService.modifyArticle(article_id, dto);
         if (result == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @DeleteMapping("/article/{article_id}")
+    public ResponseEntity deleteArticle(@PathVariable Long article_id){
+        int result = communityService.deleteArticle(article_id);
+        if (result==204){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }
+        else if (result==404){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return null;
     }
 
     @PostMapping("/article/{article_id}")
@@ -54,6 +68,24 @@ public class CommunityController {
                                         @RequestBody CommentDto dto) {
         CommentEntity result = communityService.createComment(article_id, dto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/article/{article_id}/comments")
+    public ResponseEntity getComments(@PathVariable Long article_id) {
+        List<CommentEntity> result = communityService.getComments(article_id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @DeleteMapping("/article/{article_id}/comment/{comment_id}")
+    public ResponseEntity deleteComment(@PathVariable Long article_id,
+                                        @PathVariable Long comment_id) {
+        int result = communityService.deleteComment(comment_id);
+        if (result == 204) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        } else if (result == 404) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return null;
     }
 
 }

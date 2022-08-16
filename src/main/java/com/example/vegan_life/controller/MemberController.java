@@ -28,4 +28,5 @@ public class MemberController {
         else return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+
 }
