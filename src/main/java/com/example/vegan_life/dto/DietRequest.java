@@ -3,14 +3,13 @@ package com.example.vegan_life.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DietDto {
+public class DietRequest {
     private Long member_id;
 
     private Long diet_id;

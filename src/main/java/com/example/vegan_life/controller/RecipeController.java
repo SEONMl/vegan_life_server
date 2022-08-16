@@ -1,27 +1,21 @@
 package com.example.vegan_life.controller;
 
 import com.example.vegan_life.dto.RecipeDto;
-import com.example.vegan_life.entity.RecipeEntity;
 import com.example.vegan_life.service.RecipeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class RecipeController {
-    @Autowired
-    RecipeService recipeService;
-
-    //@GetMapping("/recipes")
-    //public RecipeEntity getRecipes(@RequestBody Map<String, Long> member_id){}
+    private final RecipeService recipeService;
 
     @PostMapping("/recipes")
-    public ResponseEntity saveRecipe(@RequestBody RecipeDto dto) {
-        RecipeEntity result = recipeService.saveRecipe(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+    public ResponseEntity<RecipeDto> saveRecipe(@RequestBody RecipeDto dto) {
+        RecipeDto result = recipeService.saveRecipe(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 }

@@ -1,10 +1,15 @@
 package com.example.vegan_life.dto;
 
+import com.example.vegan_life.entity.Recipe;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecipeDto {
@@ -22,4 +27,43 @@ public class RecipeDto {
     private Float calcium;
     private Float vitamin;
     private Float iron;
+    private LocalDateTime intake_time;
+
+    public Recipe toEntity() {
+        return Recipe.builder()
+                .nameEng(name_eng)
+                .nameKor(name_kor)
+                .nutrient(nutrient)
+                .cookOrder(cook_order)
+                .ingredient(ingredient)
+                .classification(classification)
+                .carbohydrate(carbohydrate)
+                .calcium(calcium)
+                .calorie(calorie)
+                .protein(protein)
+                .fat(fat)
+                .vitamin(vitamin)
+                .iron(iron)
+                .intakeTime(intake_time)
+                .build();
+    }
+
+    public static RecipeDto of(Recipe recipe){
+        return RecipeDto.builder()
+                .name_eng(recipe.getNameEng())
+                .name_kor(recipe.getNameKor())
+                .nutrient(recipe.getNutrient())
+                .cook_order(recipe.getCookOrder())
+                .calorie(recipe.getCalorie())
+                .calcium(recipe.getCalcium())
+                .fat(recipe.getFat())
+                .protein(recipe.getProtein())
+                .classification(recipe.getClassification())
+                .ingredient(recipe.getIngredient())
+                .intake_time(recipe.getIntakeTime())
+                .iron(recipe.getIron())
+                .vitamin(recipe.getVitamin())
+                .build();
+
+    }
 }
