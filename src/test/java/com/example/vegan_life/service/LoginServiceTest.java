@@ -1,6 +1,6 @@
 package com.example.vegan_life.service;
 
-import com.example.vegan_life.entity.MemberEntity;
+import com.example.vegan_life.entity.Member;
 import com.example.vegan_life.repository.ArticleRepository;
 import com.example.vegan_life.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ class LoginServiceTest {
     @Test
     void passwordTest(){
         String rawPassword = "aaa";
-        MemberEntity entity=memberRepository.findByEmail("aaa").orElse(null);
+        Member entity=memberRepository.findByEmail("aaa").orElse(null);
 
         assertAll(
                 ()-> assertTrue(passwordEncoder.matches(rawPassword, entity.getPassword()))

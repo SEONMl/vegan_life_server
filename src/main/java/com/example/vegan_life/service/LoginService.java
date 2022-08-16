@@ -1,47 +1,42 @@
 package com.example.vegan_life.service;
 
-import com.example.vegan_life.dto.MemberDto;
-import com.example.vegan_life.entity.MemberEntity;
+import com.example.vegan_life.dto.MemberRequest;
+import com.example.vegan_life.dto.MemberResponse;
+import com.example.vegan_life.entity.Member;
 import com.example.vegan_life.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class LoginService {
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public MemberEntity registerMember(MemberDto dto) {
+    public MemberResponse registerMember(MemberRequest dto) {
         String encoded = passwordEncoder.encode(dto.getPassword());
+        // 중복 확인 추가
 
-        MemberEntity saved = MemberEntity.builder()
-                .name(dto.getName())
-                .email(dto.getEmail())
-                .nickname(dto.getNickname())
-                .height(dto.getHeight())
-                .weight(dto.getWeight())
-                .password(encoded)
-                .vege_type(dto.getVege_type())
-                .build();
+        dto.setPassword(encoded);
+
+        Member saved = dto.toEntity();
         memberRepository.save(saved);
 
-        return saved;
+        return MemberResponse.of(saved);
     }
 
-    public boolean login(String email, String password) {
-        MemberEntity target = memberRepository.findByEmail(email).orElse(null);
-        if (target==null) return false;
+    public boolean login(String email, String rawPassword) {
+        Member target = memberRepository.findByEmail(email).orElseThrow(HttpClientErrorException.Unauthorized::new);
 
-        if (passwordEncoder.matches(password, target.getPassword()))
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+        if (encodedPassword.equals(target.getPassword())) {
             return true;
-        else
-            return false;
+        }
+        return false;
+
     }
 }

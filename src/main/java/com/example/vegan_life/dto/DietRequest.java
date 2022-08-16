@@ -1,17 +1,19 @@
-package com.example.vegan_life.entity;
+package com.example.vegan_life.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import java.util.Date;
 
-@Entity
-@Table(name="diet")
 @Getter
-public class DietEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long diet_id;
+@NoArgsConstructor
+@AllArgsConstructor
+public class DietRequest {
+    private Long member_id;
 
+    private Long diet_id;
+    private Date intake_time;
     private String name_kor;
     private String name_eng;
     private Float calorie;

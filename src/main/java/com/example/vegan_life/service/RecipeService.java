@@ -1,34 +1,19 @@
 package com.example.vegan_life.service;
 
 import com.example.vegan_life.dto.RecipeDto;
-import com.example.vegan_life.entity.RecipeEntity;
+import com.example.vegan_life.entity.Recipe;
 import com.example.vegan_life.repository.RecipeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RecipeService {
-    @Autowired
-    RecipeRepository recipeRepository;
+    private final RecipeRepository recipeRepository;
 
-
-    public RecipeEntity saveRecipe(RecipeDto dto) {
-        RecipeEntity saved = RecipeEntity.builder()
-                .name_eng(dto.getName_eng())
-                .name_kor(dto.getName_kor())
-                .nutrient(dto.getNutrient())
-                .cook_order(dto.getCook_order())
-                .classification(dto.getClassification())
-                .calorie(dto.getCalorie())
-                .protein(dto.getProtein())
-                .carbohydrate(dto.getCarbohydrate())
-                .calcium(dto.getCalcium())
-                .fat(dto.getFat())
-                .vitamin(dto.getVitamin())
-                .iron(dto.getIron())
-                .ingredient(dto.getIngredient())
-                .build();
+    public RecipeDto saveRecipe(RecipeDto dto) {
+        Recipe saved = dto.toEntity();
         recipeRepository.save(saved);
-        return saved;
+        return RecipeDto.of(saved);
     }
 }

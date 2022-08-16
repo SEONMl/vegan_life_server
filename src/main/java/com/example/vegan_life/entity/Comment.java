@@ -8,30 +8,28 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="comment")
 @Getter
 @NoArgsConstructor
-public class CommentEntity {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long comment_id;
     @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name="member_id")
-    private MemberEntity member_id;
+    private Member member;
     @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name="article_id")
-    private ArticleEntity article_id;
+    private Article article;
     private String content;
-    private LocalDateTime written_at;
-    private LocalDateTime updated_at;
+    private LocalDateTime writtenAt;
+    private LocalDateTime updatedAt;
 
     @Builder
-    public CommentEntity(MemberEntity member_id, ArticleEntity article_id,String content, LocalDateTime written_at) {
-        this.member_id = member_id;
-        this.article_id = article_id;
+    public Comment(Member member, Article article, String content, LocalDateTime writtenAt) {
+        this.member = member;
+        this.article = article;
         this.content = content;
-        this.written_at = LocalDateTime.now();
-        this.updated_at = LocalDateTime.now();
+        this.writtenAt = LocalDateTime.now();
     }
 }
 
