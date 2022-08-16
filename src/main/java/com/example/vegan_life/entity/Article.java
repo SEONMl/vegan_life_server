@@ -1,17 +1,22 @@
 package com.example.vegan_life.entity;
 
-import com.example.vegan_life.dto.ArticleRequest;
-import lombok.*;
+import com.example.vegan_life.dto.ArticleDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name="article")
 @NoArgsConstructor
 @Getter
 @AllArgsConstructor
 public class Article {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="article_id")
     private Long article_id;
 
     private String content;
@@ -32,7 +37,7 @@ public class Article {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public void update(ArticleRequest dto) {
+    public void update(ArticleDto dto) {
         this.content = dto.getContent();
         this.updatedAt = LocalDateTime.now();
     }

@@ -1,7 +1,6 @@
 package com.example.vegan_life.service;
 
 import com.example.vegan_life.dto.ArticleDto;
-import com.example.vegan_life.dto.ArticleRequest;
 import com.example.vegan_life.dto.CommentDto;
 import com.example.vegan_life.entity.Article;
 import com.example.vegan_life.entity.Comment;

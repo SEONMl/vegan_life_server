@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/vegan?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: 123qwe
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show-sql: true
+        open-in-view: false
+        generate-ddl: false
+
+#jwt:
+#  header: Authorization
+#  secret: SDFNwefojfij3o4sdfouwqehroijlqijr390udfjgoliajsiodfjWErdwkeurchseflijaerTRTACwe435080vfddflwkejrlfkjoi320895ruijdsfglsdfsbzsdf
+#  token-validity-in-seconds: 86400
+
+#security:
+#  oauth2:
+#    client:
+#      registeration:
+#        kakao:
+#          client-id: # ?? ?? client-id #
+#          client-secret: # ?? ?? client-secret #
+#          scope: # ??? ?? #
+#          redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+#          authorization-grant-type: authorization_code
+#          client-name: kakao
+#          client-authentication-method: POST
+#      provider:
+#        kakao:
+#          authorization-uri: https://kauth.kakao.com/oauth/authorize
+#          token-uri: https://kauth.kakao.com/oauth/token
+#          user-info-uri: https://kapi.kakao.com/v2/user/me
+#          user-name-attribute: id

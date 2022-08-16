@@ -7,16 +7,18 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name="recipe")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Recipe {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="recipe_id")
     private Long recipe_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
     private Member member;
 
     @NotNull

@@ -26,10 +26,14 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<MemberResponse> login(@RequestBody Map<String, String> json) {
+    public ResponseEntity<Void> login(@RequestBody Map<String, String> json) {
         boolean result = loginService.login(json.get("email"), json.get("password"));
-        if (result)
-            return ResponseEntity.status(HttpStatus.OK).body("");
+        if (result) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
     }
 
 
