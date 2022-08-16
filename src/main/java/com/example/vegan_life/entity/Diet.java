@@ -5,9 +5,8 @@ import lombok.Getter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="diet")
 @Getter
-public class DietEntity {
+public class Diet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long diet_id;
