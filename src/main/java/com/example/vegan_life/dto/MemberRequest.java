@@ -13,12 +13,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberRequest {
-    private Long member_id;
-
     private String email;
     private String phone;
     @Setter
     private String password;
+    private String newPassword;
     private String name;
     private String nickname;
     private Float height;

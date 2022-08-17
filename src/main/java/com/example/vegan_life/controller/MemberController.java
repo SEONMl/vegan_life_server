@@ -2,6 +2,7 @@ package com.example.vegan_life.controller;
 
 import com.example.vegan_life.dto.MemberRequest;
 import com.example.vegan_life.dto.MemberResponse;
+import com.example.vegan_life.dto.ModifyPasswordDto;
 import com.example.vegan_life.entity.Member;
 import com.example.vegan_life.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -17,16 +18,15 @@ public class MemberController {
 
     @GetMapping("/member")
     public ResponseEntity<MemberResponse> getMemberInfo(@RequestBody MemberRequest dto){
-        MemberResponse result = memberService.getMemberInfo(dto);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-//    @PatchMapping("/members")
-//    public ResponseEntity<MemberResponse> modifyPassword(@RequestBody MemberRequest dto){
-//        Member result = memberService.modifyMemberInfo(dto);
-//        if (result == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-//        else return ResponseEntity.status(HttpStatus.OK).body(result);
-//    }
+    @PatchMapping("/member/{id}/password")
+    public ResponseEntity<MemberResponse> modifyPassword(@PathVariable Long id,
+                                                         @RequestBody ModifyPasswordDto dto){
+        MemberResponse result = memberService.modifyPassword(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 
 
 }

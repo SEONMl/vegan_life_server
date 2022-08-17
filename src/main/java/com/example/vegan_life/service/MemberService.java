@@ -2,10 +2,14 @@ package com.example.vegan_life.service;
 
 import com.example.vegan_life.dto.MemberRequest;
 import com.example.vegan_life.dto.MemberResponse;
+import com.example.vegan_life.dto.ModifyPasswordDto;
 import com.example.vegan_life.entity.Member;
 import com.example.vegan_life.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -15,18 +19,19 @@ import javax.transaction.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public MemberResponse getMemberInfo(MemberRequest dto) {
-        Member target = memberRepository.findById(dto.getMember_id()).orElseThrow(EntityNotFoundException::new);
-        MemberResponse response = MemberResponse.of(target);
-        return response;
-    }
+    private final PasswordEncoder passwordEncoder;
+
 
     @Transactional
-    public Member modifyMemberInfo(MemberRequest dto) {
-        Member target =memberRepository.findById(dto.getMember_id()).orElse(null);
-        if (target != null){
-            target.update(dto);
+    public MemberResponse modifyPassword(Long id, ModifyPasswordDto dto) {
+        Member target = memberRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        if (passwordEncoder.matches(dto.getPassword(),target.getPassword())){
+            String newEncodedPassword = passwordEncoder.encode(dto.getNewPassword());
+            target.setPassword(newEncodedPassword);
+            return MemberResponse.of(target);
         }
-        return target;
+        else{
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"비밀번호가 옳지 않습니다.");
+        }
     }
 }

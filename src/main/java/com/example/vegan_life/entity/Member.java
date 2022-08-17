@@ -5,6 +5,8 @@ import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 @Table(name="member")
 @Getter
 @NoArgsConstructor
+@DynamicInsert
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="member_id")
@@ -22,8 +25,10 @@ public class Member {
     @NotNull
     private String email;
     @Column(unique = true)
+    @NotNull
     private String phone;
     @NotNull
+    @Setter
     private String password;
     private String name;
     private String nickname;
@@ -49,12 +54,5 @@ public class Member {
         this.createdAt = LocalDateTime.now();
     }
 
-    public void update(MemberRequest dto) {
-        this.password = dto.getPassword();
-        this.name = dto.getName();
-        this.nickname = dto.getNickname();
-        this.height = dto.getHeight();
-        this.weight = dto.getWeight();
-        this.updatedAt = LocalDateTime.now();
-    }
+
 }
