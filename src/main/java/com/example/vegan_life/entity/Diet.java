@@ -12,6 +12,10 @@ public class Diet {
     @Column(name="diet_id")
     private Long diet_id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private Member member;
+
     private String name_kor;
     private String name_eng;
     private Float calorie;
