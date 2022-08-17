@@ -2,10 +2,7 @@ package com.example.vegan_life.entity;
 
 import com.example.vegan_life.dto.MemberRequest;
 import com.sun.istack.NotNull;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -14,7 +11,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="member")
 @Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @DynamicInsert
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,21 +37,17 @@ public class Member {
     private VegeType vegeType;
     private LocalDateTime updatedAt;
     private LocalDateTime createdAt;
-    // 이미지
+    @Enumerated(EnumType.STRING)
+    private ActivationRatio activationRatio;
 
-
-    @Builder
-    public Member(String email, String phone, String password, String name, String nickname, Float height, Float weight, VegeType vegeType) {
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.name = name;
-        this.nickname = nickname;
-        this.height = height;
-        this.weight = weight;
-        this.vegeType = vegeType;
-        this.createdAt = LocalDateTime.now();
+    public void setCreatedAt() {
+        this.createdAt=LocalDateTime.now();
+    }
+    public void setUpdatedAt() {
+        this.updatedAt=LocalDateTime.now();
     }
 
+
+    // 이미지
 
 }

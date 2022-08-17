@@ -1,5 +1,6 @@
 package com.example.vegan_life.dto;
 
+import com.example.vegan_life.entity.ActivationRatio;
 import com.example.vegan_life.entity.Member;
 import com.example.vegan_life.entity.VegeType;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class MemberRequest {
     private String nickname;
     private Float height;
     private Float weight;
+    private String activationRatio;
     private String vege_type;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
@@ -38,6 +40,7 @@ public class MemberRequest {
                 .email(email)
                 .password(password)
                 .vegeType(VegeType.valueOf(vege_type))
+                .activationRatio(ActivationRatio.valueOf(activationRatio))
                 .build();
     }
 }

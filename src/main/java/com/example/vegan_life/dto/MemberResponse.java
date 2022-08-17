@@ -1,7 +1,6 @@
 package com.example.vegan_life.dto;
 
 import com.example.vegan_life.entity.Member;
-import com.example.vegan_life.entity.VegeType;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,9 +17,10 @@ public class MemberResponse {
     private String nickname;
     private Float height;
     private Float weight;
-    private String vege_type;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private String activationRatio;
+    private String vegeType;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     // 이미지
 
     public static MemberResponse of(Member member){
@@ -30,7 +30,8 @@ public class MemberResponse {
                 .nickname(member.getNickname())
                 .height(member.getHeight())
                 .weight(member.getWeight())
-                .vege_type(member.getVegeType().toString())
+                .vegeType(member.getVegeType().toString())
+                .activationRatio(member.getActivationRatio().toString())
                 .phone(member.getPhone())
                 .build();
     }
