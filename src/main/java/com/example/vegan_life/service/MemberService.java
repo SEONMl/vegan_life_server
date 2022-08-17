@@ -28,6 +28,7 @@ public class MemberService {
         if (passwordEncoder.matches(dto.getPassword(),target.getPassword())){
             String newEncodedPassword = passwordEncoder.encode(dto.getNewPassword());
             target.setPassword(newEncodedPassword);
+            target.setUpdatedAt();
             return MemberResponse.of(target);
         }
         else{

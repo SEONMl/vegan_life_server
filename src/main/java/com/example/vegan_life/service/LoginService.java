@@ -30,10 +30,11 @@ public class LoginService {
         String encoded = passwordEncoder.encode(dto.getPassword());
         dto.setPassword(encoded);
 
-        Member saved = dto.toEntity();
-        memberRepository.save(saved);
+        Member entity = dto.toEntity();
+        entity.setCreatedAt();
+        memberRepository.save(entity);
 
-        return MemberResponse.of(saved);
+        return MemberResponse.of(entity);
     }
 
     public Void login(String email, String rawPassword) {
