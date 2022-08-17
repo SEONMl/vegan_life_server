@@ -2,13 +2,15 @@ package com.example.vegan_life.controller;
 
 import com.example.vegan_life.dto.MemberRequest;
 import com.example.vegan_life.dto.MemberResponse;
-import com.example.vegan_life.entity.Member;
+import com.example.vegan_life.security.TokenProvider;
 import com.example.vegan_life.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @RestController
@@ -26,14 +28,18 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody Map<String, String> json) {
-        boolean result = loginService.login(json.get("email"), json.get("password"));
-        if (result) {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
+    public ResponseEntity<Void> login(@RequestBody Map<String, String> json,
+                                      HttpServletResponse response) {
+        String email = json.get("email");
+        String password = json.get("password");
+        loginService.login(email, password);
+
+        String accessToken = TokenProvider.createToken(email, (2*1000*60));
+        Cookie cookie = new Cookie(email, accessToken);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 

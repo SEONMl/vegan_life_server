@@ -4,15 +4,16 @@ import com.example.vegan_life.dto.MemberRequest;
 import com.example.vegan_life.dto.MemberResponse;
 import com.example.vegan_life.entity.Member;
 import com.example.vegan_life.repository.MemberRepository;
-import com.example.vegan_life.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +23,11 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
 
     public MemberResponse registerMember(MemberRequest dto) {
+        Member member = memberRepository.findByEmail(dto.getEmail()).orElse(null);
+        if (member!=null){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"이미 존재하는 회원입니다.");
+        }
         String encoded = passwordEncoder.encode(dto.getPassword());
-        // 중복 확인 추가
-
         dto.setPassword(encoded);
 
         Member saved = dto.toEntity();
@@ -33,16 +36,15 @@ public class LoginService {
         return MemberResponse.of(saved);
     }
 
-    public boolean login(String email, String rawPassword) {
-        Member target = memberRepository.findByEmail(email).orElse(null);//.orElseThrow(EntityNotFoundException::new);
-        String accessToken = TokenProvider.createToken(target.getEmail(), (2*1000*60));
-        System.out.println(accessToken);
+    public Void login(String email, String rawPassword) {
+        Member target = memberRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
 
-        String encodedPassword = passwordEncoder.encode(rawPassword);
-        if (encodedPassword.equals(target.getPassword())) {
-            return true;
+        if (passwordEncoder.matches(rawPassword,target.getPassword())) {
+            return null;
         }
-        return false;
+        else{
+            throw new UsernameNotFoundException("비밀번호가 옳지 않습니다.");
+        }
 
     }
 }
