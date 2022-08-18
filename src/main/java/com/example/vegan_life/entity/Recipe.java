@@ -20,9 +20,9 @@ public class Recipe {
     @Column(name="recipe_id")
     private Long recipe_id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="member_id")
-    private Member member;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="member_id")
+//    private Member member;
 
     @NotNull
     private String nameKor;

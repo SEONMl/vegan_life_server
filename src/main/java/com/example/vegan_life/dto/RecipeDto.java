@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -64,6 +66,11 @@ public class RecipeDto {
                 .iron(recipe.getIron())
                 .vitamin(recipe.getVitamin())
                 .build();
+    }
 
+    public static List<RecipeDto> listOf(List<Recipe> recipes) {
+        return recipes.stream()
+                .map(RecipeDto::of)
+                .collect(Collectors.toList());
     }
 }
