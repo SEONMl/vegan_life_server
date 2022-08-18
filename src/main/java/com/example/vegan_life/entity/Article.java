@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="article")
@@ -20,13 +22,19 @@ public class Article {
     private Long article_id;
 
     private String content;
+
     @Enumerated(EnumType.STRING)
     private CommunityCode communityCode;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
     private LocalDateTime updatedAt;
     private LocalDateTime writtenAt;
+
+    @OneToMany(mappedBy = "article_like",
+                fetch = FetchType.LAZY)
+    private List<ArticleLike> articleLikes = new ArrayList<>();
 
     @Builder
     public Article(String content, CommunityCode communityCode, Member member) {
