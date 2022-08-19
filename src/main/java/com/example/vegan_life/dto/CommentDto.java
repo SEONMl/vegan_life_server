@@ -23,8 +23,8 @@ public class CommentDto {
     private Member member;
 
     private String content;
-    private LocalDateTime written_at;
-    private LocalDateTime updated_at;
+    private LocalDateTime writtenAt;
+    private LocalDateTime updatedAt;
 
     public static List<CommentDto> listOf(List<Comment> targets) {
         return targets.stream()
@@ -44,8 +44,8 @@ public class CommentDto {
         return CommentDto.builder()
                 .writer(comment.getMember().getNickname())
                 .content(comment.getContent())
-                .written_at(comment.getWrittenAt())
-                .updated_at(comment.getUpdatedAt())
+                .writtenAt(comment.getWrittenAt())
+                .updatedAt(comment.getUpdatedAt())
                 .build();
     }
 

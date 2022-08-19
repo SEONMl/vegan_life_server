@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberRequest {
+public class MemberRequestDto {
     private String email;
     private String phone;
     @Setter
@@ -24,9 +24,9 @@ public class MemberRequest {
     private Float height;
     private Float weight;
     private String activationRatio;
-    private String vege_type;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private VegeType vegeType;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private Member member;
     // 이미지
 
@@ -39,7 +39,7 @@ public class MemberRequest {
                 .phone(phone)
                 .email(email)
                 .password(password)
-                .vegeType(VegeType.valueOf(vege_type))
+                .vegeType(vegeType)
                 .activationRatio(ActivationRatio.valueOf(activationRatio))
                 .build();
     }

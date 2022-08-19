@@ -18,13 +18,13 @@ public class ArticleDto {
     @Setter
     private Member member;
     private String content;
-    private String community_code;
-    private LocalDateTime written_at;
-    private LocalDateTime updated_at;
+    private CommunityCode communityCode;
+    private LocalDateTime writtenAt;
+    private LocalDateTime updatedAt;
 
     public Article toEntity() {
         return Article.builder()
-                .communityCode(CommunityCode.valueOf(community_code))
+                .communityCode(communityCode)
                 .content(content)
                 .member(member)
                 .build();
@@ -32,9 +32,9 @@ public class ArticleDto {
     public static ArticleDto of(Article article){
         return ArticleDto.builder()
                 .content(article.getContent())
-                .community_code(article.getCommunityCode().toString())
-                .written_at(article.getWrittenAt())
-                .updated_at(article.getUpdatedAt())
+                .communityCode(article.getCommunityCode())
+                .writtenAt(article.getWrittenAt())
+                .updatedAt(article.getUpdatedAt())
                 .build();
     }
 

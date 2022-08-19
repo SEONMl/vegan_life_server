@@ -4,16 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DietRequest {
-    private Long member_id;
-
-    private Long diet_id;
-    private Date intake_time;
+public class DietDto {
     private String name_kor;
     private String name_eng;
     private Float calorie;

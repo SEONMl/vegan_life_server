@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberResponse {
+public class MemberResponseDto {
     private String email;
 
     private String phone;
@@ -23,8 +23,8 @@ public class MemberResponse {
     private LocalDateTime updatedAt;
     // 이미지
 
-    public static MemberResponse of(Member member){
-        return MemberResponse.builder()
+    public static MemberResponseDto of(Member member){
+        return MemberResponseDto.builder()
                 .email(member.getEmail())
                 .name(member.getName())
                 .nickname(member.getNickname())

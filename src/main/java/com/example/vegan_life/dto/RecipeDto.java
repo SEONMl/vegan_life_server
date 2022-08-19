@@ -1,5 +1,6 @@
 package com.example.vegan_life.dto;
 
+import com.example.vegan_life.entity.FoodCategory;
 import com.example.vegan_life.entity.Recipe;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,7 @@ public class RecipeDto {
     private String nutrient;
     private String ingredient;
     private String cook_order;
-    private String classification;
+    private FoodCategory foodCategory;
 
     private Float calorie;
     private Float carbohydrate;
@@ -29,7 +30,6 @@ public class RecipeDto {
     private Float calcium;
     private Float vitamin;
     private Float iron;
-    private LocalDateTime intake_time;
 
     public Recipe toEntity() {
         return Recipe.builder()
@@ -38,7 +38,7 @@ public class RecipeDto {
                 .nutrient(nutrient)
                 .cookOrder(cook_order)
                 .ingredient(ingredient)
-                .classification(classification)
+                .foodCategory(foodCategory)
                 .carbohydrate(carbohydrate)
                 .calcium(calcium)
                 .calorie(calorie)
@@ -46,7 +46,6 @@ public class RecipeDto {
                 .fat(fat)
                 .vitamin(vitamin)
                 .iron(iron)
-                .intakeTime(intake_time)
                 .build();
     }
 
@@ -60,9 +59,8 @@ public class RecipeDto {
                 .calcium(recipe.getCalcium())
                 .fat(recipe.getFat())
                 .protein(recipe.getProtein())
-                .classification(recipe.getClassification())
+                .foodCategory(recipe.getFoodCategory())
                 .ingredient(recipe.getIngredient())
-                .intake_time(recipe.getIntakeTime())
                 .iron(recipe.getIron())
                 .vitamin(recipe.getVitamin())
                 .build();
