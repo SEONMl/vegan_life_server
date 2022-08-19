@@ -1,9 +1,8 @@
 package com.example.vegan_life.controller;
 
-import com.example.vegan_life.dto.MemberRequest;
-import com.example.vegan_life.dto.MemberResponse;
+import com.example.vegan_life.dto.MemberRequestDto;
+import com.example.vegan_life.dto.MemberResponseDto;
 import com.example.vegan_life.dto.ModifyPasswordDto;
-import com.example.vegan_life.entity.Member;
 import com.example.vegan_life.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,14 +16,14 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/member")
-    public ResponseEntity<MemberResponse> getMemberInfo(@RequestBody MemberRequest dto){
+    public ResponseEntity<MemberResponseDto> getMemberInfo(@RequestBody MemberRequestDto dto){
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PatchMapping("/member/{id}/password")
-    public ResponseEntity<MemberResponse> modifyPassword(@PathVariable Long id,
-                                                         @RequestBody ModifyPasswordDto dto){
-        MemberResponse result = memberService.modifyPassword(id, dto);
+    public ResponseEntity<MemberResponseDto> modifyPassword(@PathVariable Long id,
+                                                            @RequestBody ModifyPasswordDto dto){
+        MemberResponseDto result = memberService.modifyPassword(id, dto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

@@ -20,17 +20,13 @@ public class Recipe {
     @Column(name="recipe_id")
     private Long recipe_id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="member_id")
-//    private Member member;
-
     @NotNull
     private String nameKor;
     private String nameEng;
     private String nutrient;
     private String ingredient;
     private String cookOrder;
-    private String classification;
+    private FoodCategory foodCategory;
 
     private Float calorie;
     private Float carbohydrate;
@@ -39,9 +35,5 @@ public class Recipe {
     private Float calcium;
     private Float vitamin;
     private Float iron;
-
-    private LocalDateTime intakeTime;
-
-
 
 }

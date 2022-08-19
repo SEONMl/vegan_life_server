@@ -1,7 +1,6 @@
 package com.example.vegan_life.service;
 
-import com.example.vegan_life.dto.MemberRequest;
-import com.example.vegan_life.dto.MemberResponse;
+import com.example.vegan_life.dto.MemberResponseDto;
 import com.example.vegan_life.dto.ModifyPasswordDto;
 import com.example.vegan_life.entity.Member;
 import com.example.vegan_life.repository.MemberRepository;
@@ -23,13 +22,13 @@ public class MemberService {
 
 
     @Transactional
-    public MemberResponse modifyPassword(Long id, ModifyPasswordDto dto) {
+    public MemberResponseDto modifyPassword(Long id, ModifyPasswordDto dto) {
         Member target = memberRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         if (passwordEncoder.matches(dto.getPassword(),target.getPassword())){
             String newEncodedPassword = passwordEncoder.encode(dto.getNewPassword());
             target.setPassword(newEncodedPassword);
             target.setUpdatedAt();
-            return MemberResponse.of(target);
+            return MemberResponseDto.of(target);
         }
         else{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"비밀번호가 옳지 않습니다.");

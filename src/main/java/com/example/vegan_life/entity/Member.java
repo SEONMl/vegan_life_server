@@ -1,6 +1,5 @@
 package com.example.vegan_life.entity;
 
-import com.example.vegan_life.dto.MemberRequest;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
