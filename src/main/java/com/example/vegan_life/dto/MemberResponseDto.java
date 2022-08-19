@@ -15,8 +15,8 @@ public class MemberResponseDto {
     private String phone;
     private String name;
     private String nickname;
-    private Float height;
-    private Float weight;
+    private Integer height;
+    private Integer weight;
     private String activationRatio;
     private String vegeType;
     private LocalDateTime createdAt;

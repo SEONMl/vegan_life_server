@@ -32,8 +32,8 @@ public class Member {
     private String password;
     private String name;
     private String nickname;
-    private Float height;
-    private Float weight;
+    private Integer height;
+    private Integer weight;
 
     @Enumerated(EnumType.STRING)
     private VegeType vegeType;

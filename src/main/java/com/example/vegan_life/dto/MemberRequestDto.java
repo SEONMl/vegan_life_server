@@ -21,8 +21,8 @@ public class MemberRequestDto {
     private String newPassword;
     private String name;
     private String nickname;
-    private Float height;
-    private Float weight;
+    private Integer height;
+    private Integer weight;
     private String activationRatio;
     private VegeType vegeType;
     private LocalDateTime createdAt;

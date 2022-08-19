@@ -22,18 +22,10 @@ public class Recipe {
 
     @NotNull
     private String nameKor;
-    private String nameEng;
     private String nutrient;
     private String ingredient;
     private String cookOrder;
+
+    @Enumerated(EnumType.STRING)
     private FoodCategory foodCategory;
-
-    private Float calorie;
-    private Float carbohydrate;
-    private Float protein;
-    private Float fat;
-    private Float calcium;
-    private Float vitamin;
-    private Float iron;
-
 }

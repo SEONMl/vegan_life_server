@@ -4,5 +4,5 @@ public class ArticleLikeDto {
     private Long memberId;
     private Long articleId;
     private Boolean like;
-    private int likeCount;
+    private Integer likeCount;
 }

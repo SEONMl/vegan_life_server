@@ -22,13 +22,10 @@ public class Diet {
     @JoinColumn(name="life_check_id")
     private LifeCheck lifeCheck;
 
-    private String name_kor;
-    private String name_eng;
-    private Float calorie;
-    private Float carbohydrate;
-    private Float protein;
-    private Float fat;
-    private Float calcium;
-    private Float vitamin;
-    private Float iron;
+    private String nameKor;
+    private Integer calorie;
+    private Integer carbohydrate;
+    private Integer protein;
+    private Integer fat;
+
 }

@@ -23,13 +23,13 @@ public class RecipeDto {
     private String cook_order;
     private FoodCategory foodCategory;
 
-    private Float calorie;
-    private Float carbohydrate;
-    private Float protein;
-    private Float fat;
-    private Float calcium;
-    private Float vitamin;
-    private Float iron;
+    private Integer calorie;
+    private Integer carbohydrate;
+    private Integer protein;
+    private Integer fat;
+    private Integer calcium;
+    private Integer vitamin;
+    private Integer iron;
 
     public Recipe toEntity() {
         return Recipe.builder()

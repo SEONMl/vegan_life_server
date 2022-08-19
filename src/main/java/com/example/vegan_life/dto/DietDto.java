@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DietDto {
-    private String name_kor;
-    private String name_eng;
-    private Float calorie;
-    private Float carbohydrate;
-    private Float protein;
-    private Float fat;
-    private Float calcium;
-    private Float vitamin;
-    private Float iron;
+    private String nameKor;
+    private Integer calorie;
+    private Integer carbohydrate;
+    private Integer protein;
+    private Integer fat;
+    private Integer calcium;
+    private Integer vitamin;
+    private Integer iron;
 }
