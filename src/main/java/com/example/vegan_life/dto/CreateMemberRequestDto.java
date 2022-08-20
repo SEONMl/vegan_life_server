@@ -18,12 +18,11 @@ public class CreateMemberRequestDto {
     private String phone;
     @Setter
     private String password;
-    private String newPassword;
     private String name;
     private String nickname;
     private Integer height;
     private Integer weight;
-    private String activationRatio;
+    private ActivationRatio activationRatio;
     private VegeType vegeType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -40,7 +39,7 @@ public class CreateMemberRequestDto {
                 .email(email)
                 .password(password)
                 .vegeType(vegeType)
-                .activationRatio(ActivationRatio.valueOf(activationRatio))
+                .activationRatio(activationRatio)
                 .build();
     }
 }

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CreateMemberResponseDto {
     private String email;
-
     private String phone;
     private String name;
     private String nickname;
@@ -19,8 +18,6 @@ public class CreateMemberResponseDto {
     private Integer weight;
     private String activationRatio;
     private String vegeType;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
     // 이미지
 
     public static CreateMemberResponseDto of(Member member){
