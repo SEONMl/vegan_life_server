@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberRequestDto {
+public class CreateMemberRequestDto {
     private String email;
     private String phone;
     @Setter

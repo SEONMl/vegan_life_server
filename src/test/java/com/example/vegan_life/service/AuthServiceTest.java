@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class LoginServiceTest {
+class AuthServiceTest {
     @Autowired
     MemberRepository memberRepository;
     @Autowired

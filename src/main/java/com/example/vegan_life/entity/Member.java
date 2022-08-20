@@ -2,6 +2,7 @@ package com.example.vegan_life.entity;
 
 import com.example.vegan_life.entity.enumclass.ActivationRatio;
 import com.example.vegan_life.entity.enumclass.VegeType;
+import com.example.vegan_life.security.auth.Authority;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -40,6 +41,8 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private VegeType vegeType;
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
     private LocalDateTime updatedAt;
     private LocalDateTime createdAt;
 
@@ -65,5 +68,12 @@ public class Member {
 
     public void setUpdatedAt() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    @Builder
+    public Member(String email, String password, Authority authority) {
+        this.email = email;
+        this.password = password;
+        this.authority = authority;
     }
 }
