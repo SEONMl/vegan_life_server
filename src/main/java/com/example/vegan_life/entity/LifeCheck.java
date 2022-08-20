@@ -28,7 +28,7 @@ public class LifeCheck {
 
     private LocalDateTime intake_time;
 
-    @OneToMany(mappedBy = "diet",
+    @OneToMany(mappedBy = "lifeCheck",
             fetch = FetchType.LAZY)
     private List<Diet> diets = new ArrayList<>();
 

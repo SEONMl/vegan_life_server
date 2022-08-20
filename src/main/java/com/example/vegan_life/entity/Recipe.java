@@ -31,7 +31,7 @@ public class Recipe {
     @Enumerated(EnumType.STRING)
     private FoodCategory foodCategory;
 
-    @OneToMany(mappedBy = "recipe_like",
+    @OneToMany(mappedBy = "recipe",
             fetch = FetchType.LAZY)
     private List<RecipeLike> recipeLike;
 }

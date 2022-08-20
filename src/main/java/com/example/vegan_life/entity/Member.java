@@ -49,15 +49,15 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private ActivationRatio activationRatio;
 
-    @OneToMany(mappedBy = "article",
+    @OneToMany(mappedBy = "member",
             fetch = FetchType.LAZY)
     private List<Article> articles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "comment",
+    @OneToMany(mappedBy = "member",
             fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comments> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "recipe_like",
+    @OneToMany(mappedBy = "member",
             fetch = FetchType.LAZY)
     private List<RecipeLike> recipelikes = new ArrayList<>();
 

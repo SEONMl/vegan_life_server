@@ -1,7 +1,7 @@
 package com.example.vegan_life.dto;
 
 import com.example.vegan_life.entity.Article;
-import com.example.vegan_life.entity.Comment;
+import com.example.vegan_life.entity.Comments;
 import com.example.vegan_life.entity.Member;
 import lombok.*;
 
@@ -26,26 +26,26 @@ public class CommentDto {
     private LocalDateTime writtenAt;
     private LocalDateTime updatedAt;
 
-    public static List<CommentDto> listOf(List<Comment> targets) {
+    public static List<CommentDto> listOf(List<Comments> targets) {
         return targets.stream()
                 .map(CommentDto::of)
                 .collect(Collectors.toList());
     }
 
-    public Comment toEntity(){
-        return Comment.builder()
+    public Comments toEntity(){
+        return Comments.builder()
                 .content(content)
                 .article(article)
                 .member(member)
                 .build();
     }
 
-    public static CommentDto of(Comment comment){
+    public static CommentDto of(Comments comments){
         return CommentDto.builder()
-                .writer(comment.getMember().getNickname())
-                .content(comment.getContent())
-                .writtenAt(comment.getWrittenAt())
-                .updatedAt(comment.getUpdatedAt())
+                .writer(comments.getMember().getNickname())
+                .content(comments.getContent())
+                .writtenAt(comments.getWrittenAt())
+                .updatedAt(comments.getUpdatedAt())
                 .build();
     }
 

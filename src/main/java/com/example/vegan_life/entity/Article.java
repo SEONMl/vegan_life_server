@@ -33,7 +33,7 @@ public class Article {
     private LocalDateTime updatedAt;
     private LocalDateTime writtenAt;
 
-    @OneToMany(mappedBy = "article_like",
+    @OneToMany(mappedBy = "article",
                 fetch = FetchType.LAZY)
     private List<ArticleLike> articleLikes = new ArrayList<>();
 

@@ -3,7 +3,7 @@ package com.example.vegan_life.service;
 import com.example.vegan_life.dto.ArticleDto;
 import com.example.vegan_life.dto.CommentDto;
 import com.example.vegan_life.entity.Article;
-import com.example.vegan_life.entity.Comment;
+import com.example.vegan_life.entity.Comments;
 import com.example.vegan_life.entity.Member;
 import com.example.vegan_life.repository.ArticleRepository;
 import com.example.vegan_life.repository.CommentRepository;
@@ -39,7 +39,7 @@ public class CommunityService {
         Member member = memberRepository.findByEmail(dto.getWriter()).orElseThrow(EntityNotFoundException::new);
         dto.setArticle(parentArticle);
         dto.setMember(member);
-        Comment saved = dto.toEntity();
+        Comments saved = dto.toEntity();
         commentRepository.save(saved);
         return CommentDto.of(saved);
     }
@@ -65,7 +65,7 @@ public class CommunityService {
     }
 
     public List<CommentDto> getComments(Long article_id) {
-        List<Comment> targets =commentRepository.findAllByArticleId(article_id).orElseThrow(EntityNotFoundException::new);
+        List<Comments> targets =commentRepository.findAllByArticleId(article_id).orElseThrow(EntityNotFoundException::new);
         return CommentDto.listOf(targets);
     }
 }
