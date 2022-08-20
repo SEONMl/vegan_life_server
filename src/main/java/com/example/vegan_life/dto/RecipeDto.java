@@ -16,19 +16,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RecipeDto {
     private String name_kor;
-    private String name_eng;
     private String nutrient;
     private String ingredient;
     private String cook_order;
     private FoodCategory foodCategory;
 
-    private Integer calorie;
-    private Integer carbohydrate;
-    private Integer protein;
-    private Integer fat;
-    private Integer calcium;
-    private Integer vitamin;
-    private Integer iron;
 
     public Recipe toEntity() {
         return Recipe.builder()
@@ -37,28 +29,16 @@ public class RecipeDto {
                 .cookOrder(cook_order)
                 .ingredient(ingredient)
                 .foodCategory(foodCategory)
-                .calorie(calorie)
-                .protein(protein)
-                .fat(fat)
-                .vitamin(vitamin)
-                .iron(iron)
                 .build();
     }
 
     public static RecipeDto of(Recipe recipe){
         return RecipeDto.builder()
-                .name_eng(recipe.getNameEng())
                 .name_kor(recipe.getNameKor())
                 .nutrient(recipe.getNutrient())
                 .cook_order(recipe.getCookOrder())
-                .calorie(recipe.getCalorie())
-                .calcium(recipe.getCalcium())
-                .fat(recipe.getFat())
-                .protein(recipe.getProtein())
                 .foodCategory(recipe.getFoodCategory())
                 .ingredient(recipe.getIngredient())
-                .iron(recipe.getIron())
-                .vitamin(recipe.getVitamin())
                 .build();
     }
 
