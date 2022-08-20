@@ -12,10 +12,19 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class ArticleLike {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long articleLikeId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "article_like_id")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="article_id")
+    @JoinColumn(name = "article_id")
     private Article article;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    private Integer likes;
 }
+
