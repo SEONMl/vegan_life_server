@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Comment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="comment_id")
-    private Long comment_id;
+    @Column(name="comments_id")
+    private Long id;
     @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name="member_id")
     private Member member;

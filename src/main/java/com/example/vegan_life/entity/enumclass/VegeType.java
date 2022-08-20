@@ -1,4 +1,4 @@
-package com.example.vegan_life.entity;
+package com.example.vegan_life.entity.enumclass;
 
 import javax.persistence.Enumerated;
 

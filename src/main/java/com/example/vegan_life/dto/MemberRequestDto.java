@@ -1,8 +1,8 @@
 package com.example.vegan_life.dto;
 
-import com.example.vegan_life.entity.ActivationRatio;
+import com.example.vegan_life.entity.enumclass.ActivationRatio;
 import com.example.vegan_life.entity.Member;
-import com.example.vegan_life.entity.VegeType;
+import com.example.vegan_life.entity.enumclass.VegeType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

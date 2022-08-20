@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Diet {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="diet_id")
-    private Long diet_id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="life_check_id")

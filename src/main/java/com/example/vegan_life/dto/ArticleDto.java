@@ -1,7 +1,7 @@
 package com.example.vegan_life.dto;
 
 import com.example.vegan_life.entity.Article;
-import com.example.vegan_life.entity.CommunityCode;
+import com.example.vegan_life.entity.enumclass.CommunityCode;
 import com.example.vegan_life.entity.Member;
 import lombok.*;
 

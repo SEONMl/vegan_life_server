@@ -1,5 +1,6 @@
 package com.example.vegan_life.entity;
 
+import com.example.vegan_life.entity.enumclass.Meal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class LifeCheck {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "life_check_id")
-    private Long life_check_id;
+    private Long id;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

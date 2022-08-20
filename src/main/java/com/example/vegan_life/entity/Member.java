@@ -1,5 +1,7 @@
 package com.example.vegan_life.entity;
 
+import com.example.vegan_life.entity.enumclass.ActivationRatio;
+import com.example.vegan_life.entity.enumclass.VegeType;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -10,16 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="member")
+@Table(name = "member")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamicInsert
 public class Member {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="member_id")
-    private Long member_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
+    private Long id;
 
     @Column(unique = true)
     @NotNull
@@ -51,14 +54,16 @@ public class Member {
             fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "recipe",
-                fetch = FetchType.LAZY)
-    private List<Recipe> recipes = new ArrayList<>();
+    @OneToMany(mappedBy = "recipe_like",
+            fetch = FetchType.LAZY)
+    private List<RecipeLike> recipelikes = new ArrayList<>();
+
 
     public void setCreatedAt() {
-        this.createdAt=LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
+
     public void setUpdatedAt() {
-        this.updatedAt=LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 }

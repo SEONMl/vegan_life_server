@@ -1,6 +1,7 @@
 package com.example.vegan_life.entity;
 
 import com.example.vegan_life.dto.ArticleDto;
+import com.example.vegan_life.entity.enumclass.CommunityCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +20,7 @@ import java.util.List;
 public class Article {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="article_id")
-    private Long article_id;
+    private Long id;
 
     private String content;
 

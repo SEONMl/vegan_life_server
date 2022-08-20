@@ -1,13 +1,12 @@
 package com.example.vegan_life.dto;
 
-import com.example.vegan_life.entity.FoodCategory;
+import com.example.vegan_life.entity.enumclass.FoodCategory;
 import com.example.vegan_life.entity.Recipe;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,14 +32,11 @@ public class RecipeDto {
 
     public Recipe toEntity() {
         return Recipe.builder()
-                .nameEng(name_eng)
                 .nameKor(name_kor)
                 .nutrient(nutrient)
                 .cookOrder(cook_order)
                 .ingredient(ingredient)
                 .foodCategory(foodCategory)
-                .carbohydrate(carbohydrate)
-                .calcium(calcium)
                 .calorie(calorie)
                 .protein(protein)
                 .fat(fat)

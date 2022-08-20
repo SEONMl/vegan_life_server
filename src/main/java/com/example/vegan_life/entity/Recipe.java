@@ -1,5 +1,6 @@
 package com.example.vegan_life.entity;
 
+import com.example.vegan_life.entity.enumclass.FoodCategory;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,18 +8,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name="recipe")
+@Table(name = "recipe")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Recipe {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="recipe_id")
-    private Long recipe_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recipe_id")
+    private Long id;
 
     @NotNull
     private String nameKor;
@@ -28,4 +30,8 @@ public class Recipe {
 
     @Enumerated(EnumType.STRING)
     private FoodCategory foodCategory;
+
+    @OneToMany(mappedBy = "recipe_like",
+            fetch = FetchType.LAZY)
+    private List<RecipeLike> recipeLike;
 }
