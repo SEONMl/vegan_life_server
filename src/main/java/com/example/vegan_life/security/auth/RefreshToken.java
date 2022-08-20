@@ -4,18 +4,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 // 추후 Redis에 저장할 예정
 @Entity
 @NoArgsConstructor
-@Table(name = "refresh_tokne")
+@Table(name = "refresh_token")
 @Getter
 public class RefreshToken {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long refresh_token_id;
+
     @Column(name = "rt_key")
     private String key; // email
 

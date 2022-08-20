@@ -8,12 +8,13 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
-
+server:
+  port: 1111
 jwt:
   header: Authorization
   secret: SDFNwefojfij3o4sdfouwqehroijlqijr390udfjgoliajsiodfjWErdwkeurchseflijaerTRTACwe435080vfddflwkejrlfkjoi320895ruijdsfglsdfsbzsdf
   token-validity-in-seconds: 86400
-  refresh-token-validity-in-seconds: 1000*60*60*24*7
+  refresh-token-validity-in-seconds: 1209600000
 
 #security:
 #  oauth2:
