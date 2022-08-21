@@ -35,7 +35,7 @@ public class AuthService {
 
     public CreateMemberResponseDto registerMember(CreateMemberRequestDto dto) {
         Member member = memberRepository.findByEmail(dto.getEmail()).orElse(null);
-        if (member!=null){
+        if (member != null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "이미 존재하는 회원입니다.");
         }
         String encoded = passwordEncoder.encode(dto.getPassword());
@@ -49,15 +49,16 @@ public class AuthService {
     }
 
     public TokenDto login(LoginRequestDto dto) {
-        // 1. ID/PW 기반으로 AuthenticatoinToken 생성
+        // 1. ID/PW 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = dto.toAuthentication();
 
         // 2. 실제로 검증이 이루어지는 부분 (사용자 비밀번호 체크)
         Member target = memberRepository.findByEmail(dto.getEmail()).orElseThrow(EntityNotFoundException::new);
 
-        if (! passwordEncoder.matches(dto.getPassword(),target.getPassword())) {
+        if (!passwordEncoder.matches(dto.getPassword(), target.getPassword())) {
             throw new UsernameNotFoundException("비밀번호가 옳지 않습니다.");
         }
+        // authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // 3. 인증 정보를 기반으로 Jwt 토큰 생성
@@ -72,24 +73,23 @@ public class AuthService {
         refreshTokenRepository.save(refreshToken);
 
         return tokenDto;
-
     }
 
     public TokenDto reissue(TokenRequestDto tokenRequestDto) {
         // 1. Refresh Token 검증
-        if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())){
+        if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
             throw new RuntimeException("Refresh Token이 유효하지 않습니다.");
         }
 
         // 2. Access Token에서 Member id 가져오기
-        Authentication authentication= tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
+        Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
 
         // 3. Repository에서 Member Id 기반으로 Refresh Token 값을 가져옴
         RefreshToken refreshToken = refreshTokenRepository.findByKey(authentication.getName())
                 .orElseThrow(RuntimeException::new);
 
         // 4. Refresh Token 일치하는지 검사
-        if (!refreshToken.getValue().equals(tokenRequestDto.getRefreshToken())){
+        if (!refreshToken.getValue().equals(tokenRequestDto.getRefreshToken())) {
             throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
         }
 

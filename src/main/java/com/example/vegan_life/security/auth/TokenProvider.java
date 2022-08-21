@@ -10,6 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.DatatypeConverter;
@@ -89,8 +91,8 @@ public class TokenProvider implements InitializingBean {
                         .collect(Collectors.toList());
 
         // 디비를 거치지 않고 토큰에서 값을 꺼내 바로 시큐리티 유저 객체를 만들어 Authentication을 만들어 반환하기에 유저네임, 권한 외 정보는 알 수 없다.
-        // MemberDetails principal =new Member(claims.getSubject(),"", authorities);
-        return new UsernamePasswordAuthenticationToken(accessToken, authorities);
+        UserDetails principal =new User(claims.getSubject(),"", authorities);
+        return new UsernamePasswordAuthenticationToken(principal, accessToken, authorities);
     }
 
     // 토큰 유효성 검사

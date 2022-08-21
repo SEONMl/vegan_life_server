@@ -3,6 +3,7 @@ package com.example.vegan_life.dto;
 import com.example.vegan_life.entity.enumclass.ActivationRatio;
 import com.example.vegan_life.entity.Member;
 import com.example.vegan_life.entity.enumclass.VegeType;
+import com.example.vegan_life.security.auth.Authority;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,7 @@ public class CreateMemberRequestDto {
                 .password(password)
                 .vegeType(vegeType)
                 .activationRatio(activationRatio)
+                .authority(Authority.ROLE_USER)
                 .build();
     }
 }
