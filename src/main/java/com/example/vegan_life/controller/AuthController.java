@@ -1,10 +1,9 @@
 package com.example.vegan_life.controller;
 
-import com.example.vegan_life.dto.LoginRequestDto;
 import com.example.vegan_life.dto.CreateMemberRequestDto;
 import com.example.vegan_life.dto.CreateMemberResponseDto;
+import com.example.vegan_life.dto.LoginRequestDto;
 import com.example.vegan_life.security.auth.TokenDto;
-import com.example.vegan_life.security.auth.TokenProvider;
 import com.example.vegan_life.security.auth.TokenRequestDto;
 import com.example.vegan_life.service.AuthService;
 import lombok.RequiredArgsConstructor;

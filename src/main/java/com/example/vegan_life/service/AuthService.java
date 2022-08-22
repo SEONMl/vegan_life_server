@@ -51,6 +51,8 @@ public class AuthService {
     public TokenDto login(LoginRequestDto dto) {
         // 1. ID/PW 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = dto.toAuthentication();
+        log.info("login service, authenticationToken.getName() : "+authenticationToken.getName());
+        log.info("login service, authenticationToken.getPrincipal() : "+authenticationToken.getPrincipal());
 
         // 2. 실제로 검증이 이루어지는 부분 (사용자 비밀번호 체크)
         Member target = memberRepository.findByEmail(dto.getEmail()).orElseThrow(EntityNotFoundException::new);

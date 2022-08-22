@@ -26,9 +26,9 @@ import java.util.stream.Collectors;
 public class TokenProvider implements InitializingBean {
     private static final String AUTHORITIES_KEY = "auth";
 
-    @Value("${jwt.token-validity-in-seconds}")
+    @Value("${jwt.token-validity-in-milli-seconds}")
     private long tokenValidityInSeconds;
-    @Value("${jwt.refresh-token-validity-in-seconds}")
+    @Value("${jwt.refresh-token-validity-in-milli-seconds}")
     private long refreshTokenValidityInSeconds; //1000*60*60*24*14
     @Value("${jwt.secret}")
     private String secret;
@@ -45,16 +45,19 @@ public class TokenProvider implements InitializingBean {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-        Date validity = new Date(System.currentTimeMillis() + tokenValidityInSeconds);
+        log.info("TokenProvider  authentication.getPrincipal() : "+authentication.getPrincipal());
+        long now = new Date().getTime();
 
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName()) // User Id
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(key, SignatureAlgorithm.HS512)
-                .setExpiration(validity)
+                .setExpiration(new Date(now + tokenValidityInSeconds*1000))
                 .compact();
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenValidityInSeconds))
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .setExpiration(new Date(now + refreshTokenValidityInSeconds*1000))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
@@ -67,15 +70,15 @@ public class TokenProvider implements InitializingBean {
 
     public String getSubject(String token) {
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(DatatypeConverter.parseBase64Binary(secret))
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
 
         return claims.getSubject();
     }
-    // 토큰을 받아 클레임을 만들고 권한정보를 빼서 시큐리티 유저객체를 만들어 Authentication 객체 반환
 
+    // 토큰을 받아 클레임을 만들고 권한정보를 빼서 시큐리티 유저객체를 만들어 Authentication 객체 반환
     public Authentication getAuthentication(String accessToken) {
         // 토큰 복호화
         Claims claims = Jwts.parserBuilder()
@@ -91,14 +94,22 @@ public class TokenProvider implements InitializingBean {
                         .collect(Collectors.toList());
 
         // 디비를 거치지 않고 토큰에서 값을 꺼내 바로 시큐리티 유저 객체를 만들어 Authentication을 만들어 반환하기에 유저네임, 권한 외 정보는 알 수 없다.
-        UserDetails principal =new User(claims.getSubject(),"", authorities);
+        UserDetails principal = new User(claims.getSubject(), "", authorities);
+        log.info("TokenProvider  claims.getSubject() : "+ claims.getSubject());
+        log.info("TokenProvider  claims.getId() : "+ claims.getId());
+        log.info("TokenProvider  claims.getExpiration() : "+ claims.getExpiration());
+
         return new UsernamePasswordAuthenticationToken(principal, accessToken, authorities);
     }
 
     // 토큰 유효성 검사
     public boolean validateToken(String token) {
         try {
-            Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
