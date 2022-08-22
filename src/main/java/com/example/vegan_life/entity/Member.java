@@ -43,8 +43,9 @@ public class Member {
     private VegeType vegeType;
     @Enumerated(EnumType.STRING)
     private Authority authority;
-    private LocalDateTime updatedAt;
-    private LocalDateTime createdAt;
+    @Embedded
+    @Builder.Default
+    private BaseTimeEntity baseTimeEntity = new BaseTimeEntity();
 
     @Enumerated(EnumType.STRING)
     private ActivationRatio activationRatio;
@@ -62,12 +63,11 @@ public class Member {
     private List<RecipeLike> recipelikes = new ArrayList<>();
 
 
-    public void setCreatedAt() {
-        this.createdAt = LocalDateTime.now();
-    }
-
     public void setUpdatedAt() {
-        this.updatedAt = LocalDateTime.now();
+        this.baseTimeEntity.getUpdatedAt();
+    }
+    public void setDeleteAt() {
+        this.baseTimeEntity.delete();
     }
 
     @Builder
