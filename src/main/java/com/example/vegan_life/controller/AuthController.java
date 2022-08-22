@@ -49,6 +49,13 @@ public class AuthController {
         return ResponseEntity.ok(tokenDto);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(){
+        // 세션 정보 무효화, 쿠키 토큰 삭제, Security Context 객체 삭제
+        authService.logout();
+        return ResponseEntity.noContent().build();
+    }
+
     private HttpServletResponse setTokenInCookie(TokenDto tokenDto, HttpServletResponse response) {
         Cookie accessTokenCookie = new Cookie("access_token", tokenDto.getAccessToken());
         accessTokenCookie.setPath("/");
