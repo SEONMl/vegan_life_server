@@ -5,7 +5,6 @@ import com.example.vegan_life.dto.CommentLikeDto;
 import com.example.vegan_life.dto.RecipeLikeDto;
 import com.example.vegan_life.service.LikesService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class LikesController {
 
     private final LikesService likesService;
-
 
     @PostMapping("/article-like")
     public ResponseEntity<ArticleLikeDto> like(@RequestBody ArticleLikeDto dto) {

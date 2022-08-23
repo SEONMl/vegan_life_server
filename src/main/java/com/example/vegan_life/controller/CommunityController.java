@@ -2,8 +2,8 @@ package com.example.vegan_life.controller;
 
 import com.example.vegan_life.dto.ArticleDto;
 import com.example.vegan_life.dto.CommentDto;
+import com.example.vegan_life.dto.SelectedArticleResponseDto;
 import com.example.vegan_life.service.CommunityService;
-import com.example.vegan_life.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommunityController {
     private final CommunityService communityService;
-    private final MemberService memberService;
 
     @GetMapping("/articles")
     public ResponseEntity<List<ArticleDto>> readAll() {
         List<ArticleDto> result = communityService.getAllArticles();
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/articles")
@@ -30,42 +29,36 @@ public class CommunityController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @GetMapping("/article/{article_id}")
-    public ResponseEntity<ArticleDto> read(@PathVariable Long article_id) {
-        ArticleDto result = communityService.getArticle(article_id);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+    @GetMapping("/article/{articleId}")
+    public ResponseEntity<SelectedArticleResponseDto> read(@PathVariable Long articleId) {
+        SelectedArticleResponseDto result = communityService.getArticle(articleId);
+        return ResponseEntity.ok(result);
     }
 
-    @PatchMapping("/article/{article_id}")
-    public ResponseEntity<ArticleDto> patchContent(@PathVariable Long article_id,
+    @PatchMapping("/article/{articleId}") // 작성자 아닐 때 수정 금지
+    public ResponseEntity<ArticleDto> patchContent(@PathVariable Long articleId,
                                                    @RequestBody ArticleDto dto) {
-        ArticleDto result = communityService.modifyArticle(article_id, dto);
+        ArticleDto result = communityService.modifyArticle(articleId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @DeleteMapping("/article/{article_id}")
-    public ResponseEntity<Void> deleteArticle(@PathVariable Long article_id) {
-        communityService.deleteArticle(article_id);
+    @DeleteMapping("/article/{articleId}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable Long articleId) {
+        communityService.deleteArticle(articleId);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/article/{article_id}")
-    public ResponseEntity<CommentDto> createComment(@PathVariable Long article_id,
+    @PostMapping("/article/{articleId}")
+    public ResponseEntity<CommentDto> createComment(@PathVariable Long articleId,
                                                     @RequestBody CommentDto dto) {
-        CommentDto result = communityService.createComment(article_id, dto);
+        CommentDto result = communityService.createComment(articleId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping("/article/{article_id}/comments")
-    public ResponseEntity<List<CommentDto>> getComments(@PathVariable Long article_id) {
-        List<CommentDto> result = communityService.getComments(article_id);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    @DeleteMapping("/article/{article_id}/comment/{comment_id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long article_id,
-                                              @PathVariable Long comment_id) {
-        communityService.deleteComment(comment_id);
+    @DeleteMapping("/article/{articleId}/comment/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long articleId,
+                                              @PathVariable Long commentId) {
+        communityService.deleteComment(commentId);
         return ResponseEntity.noContent().build();
     }
 

@@ -31,6 +31,11 @@ public class Article {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "article",
+            fetch = FetchType.LAZY)
+    private List<Comments> comments = new ArrayList<>();
+
     @Embedded
     private BaseTimeEntity baseTimeEntity = new BaseTimeEntity();
     public void setUpdatedAt() {
@@ -49,6 +54,10 @@ public class Article {
         this.content = content;
         this.communityCode = communityCode;
         this.member = member;
+    }
+
+    public void setComments(List<Comments> comments) {
+        this.comments = comments;
     }
 
     public void setWriter(Member member){

@@ -46,7 +46,7 @@ public class LikesService {
         Comments comments = commentRepo.findById(dto.getCommentId()).orElseThrow(EntityNotFoundException::new);
 
         if (dto.getLike()){
-            CommentLike entity = commentLikeRepo.findByCommentId(dto.getCommentId()).orElse(new CommentLike(comments,0));
+            CommentLike entity = commentLikeRepo.findByCommentsId(dto.getCommentId()).orElse(new CommentLike(comments,0));
             commentLikeRepo.save(entity);
             entity.like();
         }

@@ -2,6 +2,7 @@ package com.example.vegan_life.service;
 
 import com.example.vegan_life.dto.ArticleDto;
 import com.example.vegan_life.dto.CommentDto;
+import com.example.vegan_life.dto.SelectedArticleResponseDto;
 import com.example.vegan_life.entity.Article;
 import com.example.vegan_life.entity.Comments;
 import com.example.vegan_life.entity.Member;
@@ -11,8 +12,10 @@ import com.example.vegan_life.repository.MemberRepository;
 import com.example.vegan_life.security.auth.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -42,9 +45,9 @@ public class CommunityService {
         return ArticleDto.lisfOf(targets);
     }
 
-    public CommentDto createComment(Long article_id, CommentDto dto) {
+    public CommentDto createComment(Long articleId, CommentDto dto) {
         String curUser = CustomUserDetailsService.getCurUser();
-        Article parentArticle = articleRepository.findById(article_id).orElseThrow(EntityNotFoundException::new);
+        Article parentArticle = articleRepository.findById(articleId).orElseThrow(EntityNotFoundException::new);
         Member writer = memberRepository.findByEmail(curUser).orElseThrow(EntityNotFoundException::new);
 
         Comments entity = dto.toEntity();
@@ -54,35 +57,41 @@ public class CommunityService {
         return CommentDto.of(entity);
     }
 
-    public ArticleDto getArticle(Long article_id) {
-        Article target = articleRepository.findById(article_id).orElseThrow(EntityNotFoundException::new);
-        return ArticleDto.of(target);
+    public SelectedArticleResponseDto getArticle(Long articleId) {
+        Article target = articleRepository.findById(articleId).orElseThrow(EntityNotFoundException::new);
+        List<Comments> commentsList = commentRepository.findAllByArticleId(articleId).orElse(null);
+
+
+        return SelectedArticleResponseDto.of(target, commentsList);
     }
 
     @Transactional
-    public ArticleDto modifyArticle(Long article_id, ArticleDto dto) {
-        Article target = articleRepository.findById(article_id).orElseThrow(EntityNotFoundException::new);
+    public ArticleDto modifyArticle(Long articleId, ArticleDto dto) {
+        String curUser = CustomUserDetailsService.getCurUser();
+        Article target = articleRepository.findById(articleId).orElseThrow(EntityNotFoundException::new);
+        if (!target.getMember().getNickname().equals(curUser)) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         target.updateContent(dto);
         return ArticleDto.of(target);
     }
     @Transactional
-    public CommentDto modifyComment(Long comment_id, CommentDto dto) {
-        Comments target = commentRepository.findById(comment_id).orElseThrow(EntityNotFoundException::new);
+    public CommentDto modifyComment(Long commentId, CommentDto dto) {
+        String curUser = CustomUserDetailsService.getCurUser();
+        Comments target = commentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
+        if (!target.getMember().getNickname().equals(curUser)) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         target.updateContent(dto);
-
         return CommentDto.of(target);
     }
 
-    public void deleteArticle(Long article_id) {
-        articleRepository.deleteById(article_id);
+    public void deleteArticle(Long articleId) {
+        articleRepository.deleteById(articleId);
     }
 
-    public void deleteComment(Long comment_id) {
-        commentRepository.deleteById(comment_id);
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
     }
 
-    public List<CommentDto> getComments(Long article_id) {
-        List<Comments> targets = commentRepository.findAllByArticleId(article_id).orElseThrow(EntityNotFoundException::new);
+    public List<CommentDto> getComments(Long articleId) {
+        List<Comments> targets = commentRepository.findAllByArticleId(articleId).orElseThrow(EntityNotFoundException::new);
         return CommentDto.listOf(targets);
     }
 }
