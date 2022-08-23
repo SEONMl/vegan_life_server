@@ -22,7 +22,7 @@ public class Diet {
     @JoinColumn(name="life_check_id")
     private LifeCheck lifeCheck;
 
-    private String nameKor;
+    private String name;
     private Integer calorie;
     private Integer carbohydrate;
     private Integer protein;
