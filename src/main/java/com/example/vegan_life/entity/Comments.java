@@ -1,8 +1,10 @@
 package com.example.vegan_life.entity;
 
+import com.example.vegan_life.dto.CommentDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +15,7 @@ import java.util.List;
 @Table(name = "comments")
 @Getter
 @NoArgsConstructor
+@DynamicInsert
 public class Comments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,15 +31,31 @@ public class Comments {
 
     @OneToMany(mappedBy = "comments", fetch = FetchType.LAZY)
     private List<CommentLike> commentLikes = new ArrayList<>();
-    private LocalDateTime writtenAt;
-    private LocalDateTime updatedAt;
+
+    @Embedded
+    private BaseTimeEntity baseTimeEntity = new BaseTimeEntity();
+    public void setUpdatedAt() {
+        this.baseTimeEntity.update();
+    }
+    public void setDeleteAt() {
+        this.baseTimeEntity.delete();
+    }
 
     @Builder
     public Comments(Member member, Article article, String content, LocalDateTime writtenAt) {
         this.member = member;
         this.article = article;
         this.content = content;
-        this.writtenAt = LocalDateTime.now();
+    }
+
+    public void updateContent(CommentDto dto) { // TODO Optional로 변경
+        this.content = dto.getContent();
+        setUpdatedAt();
+    }
+
+    public void setArticleAndWriter(Article parentArticle, Member writer) {
+        this.article=parentArticle;
+        this.member=writer;
     }
 }
 

@@ -21,10 +21,20 @@ public class ArticleLike {
     @JoinColumn(name = "article_id")
     private Article article;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Builder.Default
+    private Integer likeCount=0;
 
-    private Integer likes;
+    @Builder
+    public ArticleLike(Article article, Integer likeCount) {
+        this.article = article;
+        this.likeCount = likeCount;
+    }
+
+    public void like() {
+        this.likeCount++;
+    }
+    public void unlike() {
+        this.likeCount--;
+    }
 }
 

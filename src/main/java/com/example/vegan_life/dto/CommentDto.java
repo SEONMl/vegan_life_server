@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Builder
 public class CommentDto {
-    private Long comment_id;
     private Long article_id;
+    private Long comment_id;
     @Setter
     private Article article;
     private String writer;
@@ -23,8 +23,6 @@ public class CommentDto {
     private Member member;
 
     private String content;
-    private LocalDateTime writtenAt;
-    private LocalDateTime updatedAt;
 
     public static List<CommentDto> listOf(List<Comments> targets) {
         return targets.stream()
@@ -42,10 +40,10 @@ public class CommentDto {
 
     public static CommentDto of(Comments comments){
         return CommentDto.builder()
+                .comment_id(comments.getId())
+                .article_id(comments.getArticle().getId())
                 .writer(comments.getMember().getNickname())
                 .content(comments.getContent())
-                .writtenAt(comments.getWrittenAt())
-                .updatedAt(comments.getUpdatedAt())
                 .build();
     }
 

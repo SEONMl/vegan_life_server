@@ -14,13 +14,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 public class ArticleDto {
+    private Long article_id;
     private String writer;
     @Setter
     private Member member;
     private String content;
     private CommunityCode communityCode;
-    private LocalDateTime writtenAt;
-    private LocalDateTime updatedAt;
 
     public Article toEntity() {
         return Article.builder()
@@ -31,10 +30,10 @@ public class ArticleDto {
     }
     public static ArticleDto of(Article article){
         return ArticleDto.builder()
+                .article_id(article.getId())
                 .content(article.getContent())
                 .communityCode(article.getCommunityCode())
-                .writtenAt(article.getWrittenAt())
-                .updatedAt(article.getUpdatedAt())
+                .writer(article.getMember().getEmail())
                 .build();
     }
 

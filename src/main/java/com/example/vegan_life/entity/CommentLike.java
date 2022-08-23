@@ -1,5 +1,6 @@
 package com.example.vegan_life.entity;
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -15,10 +16,18 @@ public class CommentLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comments_id")
     private Comments comments;
+    private Integer likeCount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Builder
+    public CommentLike(Comments comments, Integer likeCount) {
+        this.comments = comments;
+        this.likeCount = likeCount;
+    }
 
-    private Integer likes;
+    public void like() {
+        this.likeCount++;
+    }
+    public void unlike() {
+        this.likeCount--;
+    }
 }

@@ -6,9 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @AllArgsConstructor
+@DynamicInsert
 public class Article {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="article_id")
@@ -30,8 +31,14 @@ public class Article {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
-    private LocalDateTime updatedAt;
-    private LocalDateTime writtenAt;
+    @Embedded
+    private BaseTimeEntity baseTimeEntity = new BaseTimeEntity();
+    public void setUpdatedAt() {
+        this.baseTimeEntity.update();
+    }
+    public void setDeleteAt() {
+        this.baseTimeEntity.delete();
+    }
 
     @OneToMany(mappedBy = "article",
                 fetch = FetchType.LAZY)
@@ -42,12 +49,15 @@ public class Article {
         this.content = content;
         this.communityCode = communityCode;
         this.member = member;
-        this.writtenAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 
-    public void update(ArticleDto dto) {
-        this.content = dto.getContent();
-        this.updatedAt = LocalDateTime.now();
+    public void setWriter(Member member){
+        this.member = member;
     }
+
+    public void updateContent(ArticleDto dto) {
+        this.content = dto.getContent();
+        setUpdatedAt();
+    }
+
 }
