@@ -29,11 +29,12 @@ public class SelectedArticleResponseDto {
         this.commentDtoList = commentDtoList;
     }
 
-    public static SelectedArticleResponseDto of(Article target, List<Comments> commentsList) {
+    public static SelectedArticleResponseDto of(Article target, List<CommentResponseDto> commentsList) {
         return SelectedArticleResponseDto.builder()
                 .article_id(target.getId())
                 .writer(target.getMember().getNickname())
-                .commentDtoList(CommentResponseDto.listOf(commentsList))
+                .content(target.getContent())
+                .commentDtoList(commentsList)
                 .communityCode(target.getCommunityCode())
                 .build();
     }

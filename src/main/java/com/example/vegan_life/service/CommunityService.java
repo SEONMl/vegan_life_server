@@ -61,9 +61,7 @@ public class CommunityService {
     public SelectedArticleResponseDto getArticle(Long articleId) {
         Article target = articleRepository.findById(articleId).orElseThrow(EntityNotFoundException::new);
         List<Comments> commentsList = commentRepository.findAllByArticleId(articleId).orElse(null);
-
-
-        return SelectedArticleResponseDto.of(target, commentsList);
+        return SelectedArticleResponseDto.of(target, CommentResponseDto.listOf(commentsList));
     }
 
     @Transactional
