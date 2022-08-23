@@ -18,10 +18,10 @@ public class SelectedArticleResponseDto {
     private String writer;
     private String content;
     private CommunityCode communityCode;
-    private List<CommentDto> commentDtoList;
+    private List<CommentResponseDto> commentDtoList;
 
     @Builder
-    public SelectedArticleResponseDto(Long article_id, String writer, String content, CommunityCode communityCode, List<CommentDto> commentDtoList) {
+    public SelectedArticleResponseDto(Long article_id, String writer, String content, CommunityCode communityCode, List<CommentResponseDto> commentDtoList) {
         this.article_id = article_id;
         this.writer = writer;
         this.content = content;
@@ -33,7 +33,7 @@ public class SelectedArticleResponseDto {
         return SelectedArticleResponseDto.builder()
                 .article_id(target.getId())
                 .writer(target.getMember().getNickname())
-                .commentDtoList(CommentDto.listOf(commentsList))
+                .commentDtoList(CommentResponseDto.listOf(commentsList))
                 .communityCode(target.getCommunityCode())
                 .build();
     }

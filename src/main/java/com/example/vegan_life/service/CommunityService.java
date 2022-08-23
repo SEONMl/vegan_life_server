@@ -1,7 +1,8 @@
 package com.example.vegan_life.service;
 
 import com.example.vegan_life.dto.ArticleDto;
-import com.example.vegan_life.dto.CommentDto;
+import com.example.vegan_life.dto.CommentRequestDto;
+import com.example.vegan_life.dto.CommentResponseDto;
 import com.example.vegan_life.dto.SelectedArticleResponseDto;
 import com.example.vegan_life.entity.Article;
 import com.example.vegan_life.entity.Comments;
@@ -45,7 +46,7 @@ public class CommunityService {
         return ArticleDto.lisfOf(targets);
     }
 
-    public CommentDto createComment(Long articleId, CommentDto dto) {
+    public CommentResponseDto createComment(Long articleId, CommentRequestDto dto) {
         String curUser = CustomUserDetailsService.getCurUser();
         Article parentArticle = articleRepository.findById(articleId).orElseThrow(EntityNotFoundException::new);
         Member writer = memberRepository.findByEmail(curUser).orElseThrow(EntityNotFoundException::new);
@@ -54,7 +55,7 @@ public class CommunityService {
         entity.setArticleAndWriter(parentArticle, writer);
 
         commentRepository.save(entity);
-        return CommentDto.of(entity);
+        return CommentResponseDto.of(entity);
     }
 
     public SelectedArticleResponseDto getArticle(Long articleId) {
@@ -66,20 +67,18 @@ public class CommunityService {
     }
 
     @Transactional
-    public ArticleDto modifyArticle(Long articleId, ArticleDto dto) {
+    public void modifyArticle(Long articleId, ArticleDto dto) {
         String curUser = CustomUserDetailsService.getCurUser();
         Article target = articleRepository.findById(articleId).orElseThrow(EntityNotFoundException::new);
         if (!target.getMember().getNickname().equals(curUser)) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         target.updateContent(dto);
-        return ArticleDto.of(target);
     }
     @Transactional
-    public CommentDto modifyComment(Long commentId, CommentDto dto) {
+    public void modifyComment(Long commentId, CommentRequestDto dto) {
         String curUser = CustomUserDetailsService.getCurUser();
         Comments target = commentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
         if (!target.getMember().getNickname().equals(curUser)) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         target.updateContent(dto);
-        return CommentDto.of(target);
     }
 
     public void deleteArticle(Long articleId) {
@@ -90,8 +89,8 @@ public class CommunityService {
         commentRepository.deleteById(commentId);
     }
 
-    public List<CommentDto> getComments(Long articleId) {
+    public List<CommentResponseDto> getComments(Long articleId) {
         List<Comments> targets = commentRepository.findAllByArticleId(articleId).orElseThrow(EntityNotFoundException::new);
-        return CommentDto.listOf(targets);
+        return CommentResponseDto.listOf(targets);
     }
 }

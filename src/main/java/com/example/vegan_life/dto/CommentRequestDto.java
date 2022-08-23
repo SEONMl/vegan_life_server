@@ -5,7 +5,6 @@ import com.example.vegan_life.entity.Comments;
 import com.example.vegan_life.entity.Member;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommentDto {
+public class CommentRequestDto {
     private Long article_id;
     private Long comment_id;
     @Setter
@@ -24,9 +23,9 @@ public class CommentDto {
 
     private String content;
 
-    public static List<CommentDto> listOf(List<Comments> targets) {
+    public static List<CommentRequestDto> listOf(List<Comments> targets) {
         return targets.stream()
-                .map(CommentDto::of)
+                .map(CommentRequestDto::of)
                 .collect(Collectors.toList());
     }
 
@@ -38,8 +37,8 @@ public class CommentDto {
                 .build();
     }
 
-    public static CommentDto of(Comments comments){
-        return CommentDto.builder()
+    public static CommentRequestDto of(Comments comments){
+        return CommentRequestDto.builder()
                 .comment_id(comments.getId())
                 .article_id(comments.getArticle().getId())
                 .writer(comments.getMember().getNickname())

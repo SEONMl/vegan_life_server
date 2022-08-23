@@ -1,6 +1,6 @@
 package com.example.vegan_life.entity;
 
-import com.example.vegan_life.dto.CommentDto;
+import com.example.vegan_life.dto.CommentRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,7 +48,7 @@ public class Comments {
         this.content = content;
     }
 
-    public void updateContent(CommentDto dto) { // TODO Optional로 변경
+    public void updateContent(CommentRequestDto dto) { // TODO Optional로 변경
         this.content = dto.getContent();
         setUpdatedAt();
     }

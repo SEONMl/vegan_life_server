@@ -1,7 +1,8 @@
 package com.example.vegan_life.controller;
 
 import com.example.vegan_life.dto.ArticleDto;
-import com.example.vegan_life.dto.CommentDto;
+import com.example.vegan_life.dto.CommentRequestDto;
+import com.example.vegan_life.dto.CommentResponseDto;
 import com.example.vegan_life.dto.SelectedArticleResponseDto;
 import com.example.vegan_life.service.CommunityService;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +37,16 @@ public class CommunityController {
     }
 
     @PatchMapping("/article/{articleId}") // 작성자 아닐 때 수정 금지
-    public ResponseEntity<ArticleDto> patchContent(@PathVariable Long articleId,
+    public ResponseEntity<Void> patchContent(@PathVariable Long articleId,
                                                    @RequestBody ArticleDto dto) {
-        ArticleDto result = communityService.modifyArticle(articleId, dto);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        communityService.modifyArticle(articleId, dto);
+        return ResponseEntity.ok().build();
+    }
+    @PatchMapping("/comment/{commentId}") // 작성자 아닐 때 수정 금지
+    public ResponseEntity<Void> patchContent(@PathVariable Long commentId,
+                                             @RequestBody CommentRequestDto dto) {
+        communityService.modifyComment(commentId, dto);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/article/{articleId}")
@@ -49,9 +56,9 @@ public class CommunityController {
     }
 
     @PostMapping("/article/{articleId}")
-    public ResponseEntity<CommentDto> createComment(@PathVariable Long articleId,
-                                                    @RequestBody CommentDto dto) {
-        CommentDto result = communityService.createComment(articleId, dto);
+    public ResponseEntity<CommentResponseDto> createComment(@PathVariable Long articleId,
+                                                    @RequestBody CommentRequestDto dto) {
+        CommentResponseDto result = communityService.createComment(articleId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
