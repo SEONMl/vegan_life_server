@@ -68,14 +68,14 @@ public class CommunityService {
     public void modifyArticle(Long articleId, ArticleDto dto) {
         String curUser = CustomUserDetailsService.getCurUser();
         Article target = articleRepository.findById(articleId).orElseThrow(EntityNotFoundException::new);
-        if (!target.getMember().getNickname().equals(curUser)) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        if (!target.getMember().getEmail().equals(curUser)) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         target.updateContent(dto);
     }
     @Transactional
     public void modifyComment(Long commentId, CommentRequestDto dto) {
         String curUser = CustomUserDetailsService.getCurUser();
         Comments target = commentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
-        if (!target.getMember().getNickname().equals(curUser)) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        if (!target.getMember().getEmail().equals(curUser)) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         target.updateContent(dto);
     }
 
