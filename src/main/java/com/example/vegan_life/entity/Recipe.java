@@ -28,10 +28,21 @@ public class Recipe {
     private String ingredient;
     private String cookOrder;
 
+    @Embedded
+    @Builder.Default
+    private BaseTimeEntity baseTimeEntity = new BaseTimeEntity();
+    public void setUpdatedAt() {
+        this.baseTimeEntity.update();
+    }
+    public void setDeleteAt() {
+        this.baseTimeEntity.delete();
+    }
+
     @Enumerated(EnumType.STRING)
     private FoodCategory foodCategory;
 
     @OneToMany(mappedBy = "recipe",
             fetch = FetchType.LAZY)
     private List<RecipeLike> recipeLike;
+
 }

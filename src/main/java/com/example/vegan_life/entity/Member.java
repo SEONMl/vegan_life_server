@@ -64,7 +64,7 @@ public class Member {
 
 
     public void setUpdatedAt() {
-        this.baseTimeEntity.getUpdatedAt();
+        this.baseTimeEntity.update();
     }
     public void setDeleteAt() {
         this.baseTimeEntity.delete();

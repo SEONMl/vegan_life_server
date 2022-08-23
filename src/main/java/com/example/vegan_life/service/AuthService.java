@@ -42,7 +42,6 @@ public class AuthService {
         dto.setPassword(encoded);
 
         Member entity = dto.toEntity();
-        entity.setCreatedAt();
         memberRepository.save(entity);
 
         return CreateMemberResponseDto.of(entity);
