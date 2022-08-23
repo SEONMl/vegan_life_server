@@ -8,12 +8,16 @@ import com.example.vegan_life.entity.Member;
 import com.example.vegan_life.repository.ArticleRepository;
 import com.example.vegan_life.repository.CommentRepository;
 import com.example.vegan_life.repository.MemberRepository;
+import com.example.vegan_life.security.auth.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommunityService {
@@ -22,26 +26,32 @@ public class CommunityService {
     private final CommentRepository commentRepository;
 
     public ArticleDto createArticle(ArticleDto dto) {
-        Member target = memberRepository.findByEmail(dto.getWriter()).orElseThrow(EntityNotFoundException::new);
-        dto.setMember(target);
-        Article saved = dto.toEntity();
-        articleRepository.save(saved);
-        return ArticleDto.of(saved);
+        String curUser = CustomUserDetailsService.getCurUser();
+        Member writer = memberRepository.findByEmail(curUser).orElseThrow(EntityNotFoundException::new);
+
+        Article entity = dto.toEntity();
+        entity.setWriter(writer);
+        articleRepository.save(entity);
+        return ArticleDto.of(entity);
     }
 
     public List<ArticleDto> getAllArticles() {
+        log.info("CustomUserDetailsService.getCurUser() : "+ CustomUserDetailsService.getCurUser());
+
         List<Article> targets = articleRepository.findAll();
         return ArticleDto.lisfOf(targets);
     }
 
     public CommentDto createComment(Long article_id, CommentDto dto) {
+        String curUser = CustomUserDetailsService.getCurUser();
         Article parentArticle = articleRepository.findById(article_id).orElseThrow(EntityNotFoundException::new);
-        Member member = memberRepository.findByEmail(dto.getWriter()).orElseThrow(EntityNotFoundException::new);
-        dto.setArticle(parentArticle);
-        dto.setMember(member);
-        Comments saved = dto.toEntity();
-        commentRepository.save(saved);
-        return CommentDto.of(saved);
+        Member writer = memberRepository.findByEmail(curUser).orElseThrow(EntityNotFoundException::new);
+
+        Comments entity = dto.toEntity();
+        entity.setArticleAndWriter(parentArticle, writer);
+
+        commentRepository.save(entity);
+        return CommentDto.of(entity);
     }
 
     public ArticleDto getArticle(Long article_id) {
@@ -49,11 +59,18 @@ public class CommunityService {
         return ArticleDto.of(target);
     }
 
+    @Transactional
     public ArticleDto modifyArticle(Long article_id, ArticleDto dto) {
         Article target = articleRepository.findById(article_id).orElseThrow(EntityNotFoundException::new);
-        target.update(dto);
-
+        target.updateContent(dto);
         return ArticleDto.of(target);
+    }
+    @Transactional
+    public CommentDto modifyComment(Long comment_id, CommentDto dto) {
+        Comments target = commentRepository.findById(comment_id).orElseThrow(EntityNotFoundException::new);
+        target.updateContent(dto);
+
+        return CommentDto.of(target);
     }
 
     public void deleteArticle(Long article_id) {
@@ -65,7 +82,7 @@ public class CommunityService {
     }
 
     public List<CommentDto> getComments(Long article_id) {
-        List<Comments> targets =commentRepository.findAllByArticleId(article_id).orElseThrow(EntityNotFoundException::new);
+        List<Comments> targets = commentRepository.findAllByArticleId(article_id).orElseThrow(EntityNotFoundException::new);
         return CommentDto.listOf(targets);
     }
 }

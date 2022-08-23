@@ -5,6 +5,7 @@ import com.example.vegan_life.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,5 +34,10 @@ public class CustomUserDetailsService implements UserDetailsService {
                 member.getPassword(),
                 Collections.singleton(grantedAuthority)
         );
+    }
+
+
+    public static String getCurUser(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }
