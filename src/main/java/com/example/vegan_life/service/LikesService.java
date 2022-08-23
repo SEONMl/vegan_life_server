@@ -2,11 +2,10 @@ package com.example.vegan_life.service;
 
 import com.example.vegan_life.dto.ArticleLikeDto;
 import com.example.vegan_life.dto.CommentLikeDto;
-import com.example.vegan_life.entity.Article;
-import com.example.vegan_life.entity.ArticleLike;
-import com.example.vegan_life.entity.CommentLike;
-import com.example.vegan_life.entity.Comments;
+import com.example.vegan_life.dto.RecipeLikeDto;
+import com.example.vegan_life.entity.*;
 import com.example.vegan_life.repository.*;
+import com.example.vegan_life.security.auth.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,9 +19,11 @@ import javax.persistence.EntityNotFoundException;
 public class LikesService {
     private final ArticleLikeRepository articleLikeRepo;
     private final CommentLikeRepository commentLikeRepo;
-    private final MemberRepository memberRepo;
+    private final RecipeLikeRepository recipeLikeRepo;
     private final ArticleRepository articleRepo;
     private final CommentRepository commentRepo;
+    private final RecipeRepository recipeRepo;
+    private final MemberRepository memberRepo;
 
     @Transactional
     public ArticleLikeDto articleLike(ArticleLikeDto dto) {
@@ -50,5 +51,22 @@ public class LikesService {
             entity.like();
         }
         return dto;
+    }
+
+    public RecipeLikeDto recipeLike(RecipeLikeDto dto) {
+        String curUser = CustomUserDetailsService.getCurUser();
+        Member member = memberRepo.findByEmail(curUser).orElseThrow(EntityNotFoundException::new);
+        Recipe recipe = recipeRepo.findById(dto.getRecipeId()).orElseThrow(EntityNotFoundException::new);
+        RecipeLike entity = RecipeLike.builder()
+                .member(member)
+                .recipe(recipe)
+                .build();
+        if (dto.getLike()){
+            recipeLikeRepo.save(entity);
+        } else{
+            recipeLikeRepo.delete(entity);
+        }
+        return dto;
+
     }
 }

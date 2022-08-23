@@ -1,5 +1,6 @@
 package com.example.vegan_life.entity;
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -19,4 +20,10 @@ public class RecipeLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
+
+    @Builder
+    public RecipeLike(Recipe recipe, Member member) {
+        this.recipe = recipe;
+        this.member = member;
+    }
 }
